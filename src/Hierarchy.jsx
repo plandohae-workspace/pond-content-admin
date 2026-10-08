@@ -1,7 +1,7 @@
 import React,{useState} from 'react';
 import {Plus,ChevronRight,Download} from 'lucide-react';
 import {stages,hierarchy,progress,normalizeLogs} from './model.js';
-export function Cascade({data,value,onChange,disabled=false,includeLesson=true,prefix=''}){
+export function Cascade({data,value,onChange,disabled=false,includeLesson=true,prefix='',levelOptions=data.projects}){
  const h=hierarchy(data,value.lessonId);
  const linkedUnit=data.units.find(u=>u.id===value.unitId)||h.unit;
  const linkedBook=data.textbooks.find(t=>t.id===(value.textbookId||linkedUnit?.textbookId))||h.textbook;
@@ -10,7 +10,7 @@ export function Cascade({data,value,onChange,disabled=false,includeLesson=true,p
  const unitId=value.unitId??h.unit?.id??'';
  const lessonId=value.lessonId||'';
  return <div className="cascade">{[
-  ['levelId','Level',data.projects,levelId],
+  ['levelId','Level',levelOptions,levelId],
   ['textbookId','Textbook',data.textbooks.filter(t=>t.levelId===levelId),textbookId],
   ['unitId','Unit',data.units.filter(u=>u.textbookId===textbookId),unitId],
   ...(includeLesson?[['lessonId','Lesson',data.lessons.filter(l=>l.unitId===unitId),lessonId]]:[]),

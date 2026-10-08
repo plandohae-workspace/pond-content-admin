@@ -14,7 +14,7 @@ const nav=()=>page.locator('nav').getByRole('button',{name:'검수 관리'}).cli
 await nav();assert.equal(await page.locator('.review-level-grid').first().getByRole('button').count(),6);assert.equal(await page.locator('.spreadsheet').count(),0);
 await page.screenshot({path:'docs/review-levels.png',fullPage:true});
 await page.getByRole('button',{name:'ECP6m 검수 관리 열기',exact:true}).click();
-await expect(page.locator('.review-breadcrumb')).toContainText('ECP6m');assert.equal(await page.locator('[data-summary=lessons]').textContent(),'2');assert.equal(await page.locator('[data-summary=pending]').textContent(),'1');assert.equal(await page.locator('[data-summary=completed]').textContent(),'1');
+assert.deepEqual(await page.getByLabel('탐색 Level',{exact:true}).locator('option').allTextContents(),['Level 선택','ECP6m','ECP7m','ECP7','S1','MAG1','MAG2']);await expect(page.locator('.review-breadcrumb')).toContainText('ECP6m');assert.equal(await page.locator('[data-summary=lessons]').textContent(),'2');assert.equal(await page.locator('[data-summary=pending]').textContent(),'1');assert.equal(await page.locator('[data-summary=completed]').textContent(),'1');
 assert.equal(await page.locator('.spreadsheet').count(),0);
 await page.getByLabel('탐색 Textbook',{exact:true}).selectOption({label:'ECP6m Sample Textbook'});
 await page.getByLabel('탐색 Unit',{exact:true}).selectOption({label:'Unit 01'});
@@ -37,7 +37,7 @@ page.once('dialog',d=>d.accept());await row.getByRole('button',{name:`행 삭제
 await page.getByLabel('탐색 Unit',{exact:true}).selectOption('');assert.equal(await page.getByLabel('탐색 Lesson',{exact:true}).inputValue(),'');assert.equal(await page.locator('.spreadsheet').count(),0);
 await page.getByLabel('탐색 Textbook',{exact:true}).selectOption('');assert.equal(await page.getByLabel('탐색 Unit',{exact:true}).inputValue(),'');
 await page.getByRole('button',{name:'레벨 목록으로',exact:true}).click();await page.getByRole('button',{name:'확인 필요 데이터 조회'}).click();row=page.locator('[data-log-id="orphan-test"]');await row.getByRole('img',{name:'보존 이미지.png'}).waitFor();assert.equal(await page.locator('.error-row').count(),1);
-await page.getByRole('button',{name:'레벨 목록으로',exact:true}).click();await page.getByRole('button',{name:'전체 레벨 통합 조회',exact:true}).click();assert.equal(await page.locator('.error-row').count(),23);
+await page.getByRole('button',{name:'레벨 목록으로',exact:true}).click();await page.getByRole('button',{name:'전체 레벨 통합 조회',exact:true}).click();assert.equal(await page.locator('.error-row').count(),13);
 const stored=await page.evaluate(()=>new Promise(resolve=>{const r=indexedDB.open('pond-admin',1);r.onsuccess=()=>{const q=r.result.transaction('workspace').objectStore('workspace').get('current');q.onsuccess=()=>resolve(q.result);};}));
 assert.deepEqual(stored.logs.find(l=>l.id==='orphan-test'),migrate(legacy).logs.at(-1));assert.deepEqual(stored.materials,legacy.materials);assert.deepEqual(stored.lessons.slice(0,24),legacy.lessons.map(l=>({...l,unitId:`unit-${l.projectId}`})));
 for(const menu of ['Lesson','자료 관리','사용자·권한','대시보드']){await page.locator('nav').getByRole('button',{name:menu,exact:true}).click();await page.getByRole('heading',{level:1}).waitFor();}

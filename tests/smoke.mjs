@@ -32,7 +32,7 @@ assert.equal(await page.locator('.spreadsheet tbody tr').count(),1);
 await page.getByRole('button',{name:'오류 없음 확인',exact:true}).first().click();await expect(page.getByRole('button',{name:'오류 없음 확인 취소',exact:true})).toBeVisible();await page.getByRole('button',{name:'Lesson 검수 완료',exact:true}).click();
 await page.getByText('변경 내용이 저장되었습니다.',{exact:true}).waitFor();
 await expect(page.getByRole('button',{name:'Lesson 검수 완료',exact:true})).toBeDisabled();
-await nav('검수 관리').click();await page.getByRole('button',{name:'전체 레벨 통합 조회',exact:true}).click();
+await nav('검수 관리').click();await page.getByRole('button',{name:'관리자 보존 데이터 조회',exact:true}).click();
 assert.ok(await page.locator('.first-review').count());assert.ok(await page.locator('.final-review').count());assert.equal(await page.locator('.spreadsheet thead th').count(),14);await page.getByLabel('검수 상태 필터').selectOption('Open');assert.equal(await page.locator('.error-row').count(),1);await page.getByLabel('검수 상태 필터').selectOption('');
 assert.equal(await page.locator('.spreadsheet .error-row').count(),22);
 // Add exactly one error row, cascade selection, inline edit and autocomplete.
@@ -64,7 +64,7 @@ await row.locator('.image-actions').nth(1).getByRole('button',{name:'삭제',exa
 assert.equal(await row.locator('.thumbnail').count(),2);
 await page.getByRole('button',{name:'변경 저장',exact:true}).click();await expect(page.getByRole('button',{name:'변경 저장',exact:true})).toBeDisabled();
 await expect(page.getByRole('button',{name:'변경 저장',exact:true})).toBeDisabled();
-await page.reload();await page.getByRole('heading',{name:'콘텐츠 제작 현황'}).waitFor();await nav('검수 관리').click();await page.getByRole('button',{name:'전체 레벨 통합 조회',exact:true}).click();
+await page.reload();await page.getByRole('heading',{name:'콘텐츠 제작 현황'}).waitFor();await nav('검수 관리').click();await page.getByRole('button',{name:'관리자 보존 데이터 조회',exact:true}).click();
 await page.getByLabel('검수 검색').fill('실제 이미지 Excel 검증');
 row=page.locator(`[data-log-id="${id}"]`);await row.locator('.thumbnail').nth(1).waitFor();assert.equal(await row.locator('.thumbnail').count(),2);
 const statusOptions=await row.getByLabel(`STATUS ${id}`,{exact:true}).locator('option').allTextContents();assert.equal(statusOptions.length,8);assert.ok(statusOptions.includes('Need to check on the smartboard'));await row.getByLabel(`STATUS ${id}`,{exact:true}).selectOption('Revised');await row.getByLabel(`처리 결과 ${id}`,{exact:true}).fill('가상 수정 반영 완료');
@@ -74,14 +74,14 @@ await page.getByLabel('검수 차수 필터').selectOption('1st Review');
 const waiting=page.waitForEvent('download');await page.getByRole('button',{name:'Excel 다운로드',exact:true}).click();const download=await waiting;
 const wb=new ExcelJS.Workbook();await wb.xlsx.readFile(await download.path());
 const sheet=wb.worksheets[0];assert.equal(sheet.columnCount,12);assert.equal(sheet.rowCount,3);assert.equal(sheet.getImages().length,2);assert.equal(sheet.getCell('J3').value,'');assert.ok(sheet.getRow(3).height>=180);assert.equal(wb.model.media.length,2);
-assert.equal(sheet.getCell('C3').value,'Unit Renamed');assert.equal(sheet.getCell('L1').value,'진행 상황/처리 결과');assert.equal(sheet.getCell('L3').value,'가상 수정 반영 완료');assert.ok(sheet.getCell('A2').value.includes('[1st REVIEW COMMENTS]'));assert.equal(sheet.getImages()[0].range.tl.nativeRow,2);assert.equal(wb.worksheets[1].name,'검수 이력');
+assert.equal(sheet.getCell('C3').value,'Unit Renamed');assert.equal(sheet.getCell('L2').value,'진행 상황/처리 결과');assert.equal(sheet.getCell('L3').value,'가상 수정 반영 완료');assert.ok(sheet.getCell('A1').value.includes('[1st REVIEW COMMENTS]'));assert.equal(sheet.getImages()[0].range.tl.nativeRow,2);assert.equal(wb.worksheets[1].name,'검수 이력');
 await page.screenshot({path:'docs/review-grid.png',fullPage:true});
 await row.locator('.image-cell').evaluate(cell=>{cell.closest('.spreadsheet').scrollLeft=cell.offsetLeft-350;});await page.screenshot({path:'docs/review-images.png',fullPage:true});
 // Cascade filters find only the requested lesson.
 await page.getByLabel('조회 Level',{exact:true}).selectOption({label:'Level Test'});await page.getByLabel('조회 Textbook',{exact:true}).selectOption({label:'Textbook Test'});await page.getByLabel('조회 Unit',{exact:true}).selectOption({label:'Unit Renamed'});await page.getByLabel('조회 Lesson',{exact:true}).selectOption({label:'Lesson 01 · Zero Log Lesson'});assert.equal(await page.locator('.spreadsheet .error-row').count(),1);
 page.once('dialog',d=>d.accept());await row.getByRole('button',{name:`행 삭제 ${id}`,exact:true}).click();await page.getByRole('button',{name:'변경 저장',exact:true}).click();await expect(page.getByRole('button',{name:'변경 저장',exact:true})).toBeDisabled();
 // Source role is read only for review, existing materials and rights screens still work.
-await page.getByLabel('데모 역할').selectOption('Source Team');assert.ok(await page.getByRole('button',{name:'행 추가',exact:true}).isDisabled());
+await page.getByRole('button',{name:'레벨 목록으로',exact:true}).click();await page.getByRole('button',{name:'전체 레벨 통합 조회',exact:true}).click();await page.getByLabel('데모 역할').selectOption('Source Team');assert.ok(await page.getByRole('button',{name:'행 추가',exact:true}).isDisabled());
 await nav('자료 관리').click();assert.equal(await page.locator('.material').count(),12);
 await page.getByRole('button',{name:'자료 등록',exact:true}).click();await page.getByLabel('자료명').fill('자료 파일 보존');await page.getByLabel('등록 방식').selectOption('file');await page.locator('.modal input[type=file]').setInputFiles({name:'sample.txt',mimeType:'text/plain',buffer:Buffer.from('가상 데이터')});await page.getByRole('button',{name:'저장',exact:true}).click();await page.getByText('자료 파일 보존',{exact:true}).waitFor();
 await nav('사용자·권한').click();await page.getByRole('heading',{name:'역할별 기능 권한'}).waitFor();

@@ -1,6 +1,6 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
-import {seed,migrate,ensureReviewLevels,initialReviewLevels,reviewSummary,needsReviewAssignment,applyReviewLogs,hierarchy,normalizeLogs,progress,safeUrl,permissions,logColumns,reviewColumns,reviewStatuses,reviewGroups,reviewGroupLabel} from './model.js';
+import {seed,migrate,reviewLevelOptions,ensureReviewLevels,initialReviewLevels,reviewSummary,needsReviewAssignment,applyReviewLogs,hierarchy,normalizeLogs,progress,safeUrl,permissions,logColumns,reviewColumns,reviewStatuses,reviewGroups,reviewGroupLabel} from './model.js';
 test('샘플 연결 관계와 진행률',()=>{const d=seed();assert.equal(d.lessons.length,24);for(const l of d.lessons)assert.ok(d.projects.some(p=>p.id===l.projectId));for(const m of d.materials)assert.ok(d.lessons.some(l=>l.id===m.lessonId));assert.equal(progress([]),0);assert.equal(progress([{status:'검수 완료'}]),100);assert.equal(progress([{status:'소스 대기'}]),0);});
 test('외부 링크는 HTTP(S)만 허용',()=>{assert.equal(safeUrl('javascript:alert(1)'),null);assert.equal(safeUrl('https://example.com'),'https://example.com/');});
 test('데모 권한과 Excel 컬럼',()=>{assert.ok(permissions.Admin.includes('권한 변경'));assert.ok(!permissions['Source Team'].includes('검수 편집'));assert.equal(logColumns.length,18);});
@@ -33,3 +33,5 @@ test('6개 검수 레벨을 추가해도 기존 로그·이미지·소속은 보
  const s=reviewSummary(next,next.reviewLevelIds[0]);assert.deepEqual(s,{lessons:2,pending:1,completed:1});
  const renamed=structuredClone(next);renamed.projects.find(p=>p.id===renamed.reviewLevelIds[0]).name='관리자 수정';assert.equal(ensureReviewLevels(renamed).projects.find(p=>p.id===renamed.reviewLevelIds[0]).name,'관리자 수정');
 });
+
+test('일반 검수 레벨은 지정 순서와 관리자 신규 레벨만 표시하고 과거 데이터는 유지',()=>{const d=ensureReviewLevels(migrate(seed()));const before=structuredClone(d);d.projects.reverse();assert.deepEqual(reviewLevelOptions(d).map(l=>l.name),initialReviewLevels);d.projects.push({id:'new-admin-level',name:'NEW LEVEL'});assert.deepEqual(reviewLevelOptions(d).map(l=>l.name),[...initialReviewLevels,'NEW LEVEL']);assert.deepEqual(d.logs,before.logs);assert.deepEqual(d.lessons,before.lessons);assert.equal(d.projects.filter(l=>/^Project [A-D]$/.test(l.name)).length,4);});

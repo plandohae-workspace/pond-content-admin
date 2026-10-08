@@ -130,3 +130,11 @@ export function needsReviewAssignment(data,log){
  const h=hierarchy(data,log.lessonId);
  return !h.lesson||!h.unit||!h.textbook||!h.level||h.textbook.levelId!==h.lesson.projectId;
 }
+
+export function archivedReviewLevelIds(data){return data.projects.filter(p=>data.legacyReviewLevelIds?.includes(p.id)||/^Project [A-D]$/i.test(p.name.trim())).map(p=>p.id);}
+export function reviewLevelOptions(data){
+ const archived=new Set(archivedReviewLevelIds(data));
+ const available=data.projects.filter(p=>!archived.has(p.id));
+ const order=data.reviewLevelIds||[];
+ return [...available.filter(p=>order.includes(p.id)).sort((a,b)=>order.indexOf(a.id)-order.indexOf(b.id)),...available.filter(p=>!order.includes(p.id))];
+}
