@@ -12,7 +12,8 @@
     "build:html": "node scripts/build-html.mjs",
     "test:browser": "node tests/smoke.mjs",
     "test:navigation": "node tests/review-navigation.mjs",
-    "test:lessons": "node tests/lesson-navigation.mjs"
+    "test:lessons": "node tests/lesson-navigation.mjs",
+    "test:lesson-editor": "node tests/lesson-editor.mjs"
   },
   "dependencies": {
     "exceljs": "^4.4.0",
