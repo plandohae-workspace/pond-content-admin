@@ -1,0 +1,2 @@
+# Bundled vendor template literals may contain significant trailing whitespace.
+artifacts/POND-Admin.html -whitespace

@@ -1,4 +1,4 @@
-import {seed,migrate} from './model.js';
+import {seed,migrate,ensureReviewLevels} from './model.js';
 let dbPromise;
 function database(){
   dbPromise ||= new Promise((resolve,reject)=>{
@@ -22,9 +22,9 @@ export async function load(){
   const saved=await new Promise((resolve,reject)=>{
     const r=db.transaction('workspace').objectStore('workspace').get('current');r.onsuccess=()=>resolve(r.result);r.onerror=()=>reject(r.error);
   });
-  if(saved)return migrate(saved);
+  if(saved){const next=ensureReviewLevels(migrate(saved));if(saved.reviewNavigationVersion!==1||!saved.legacyReviewLevelIds)await store(next);return next;}
   const legacy=localStorage.getItem('pond-v1');
   // 파싱 실패 시 원본을 덮어쓰지 않고 복구 가능한 오류를 표시한다.
-  const data=migrate(legacy?JSON.parse(legacy):seed());
+  const data=ensureReviewLevels(migrate(legacy?JSON.parse(legacy):seed()));
   await store(data);return data;
 }

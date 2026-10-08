@@ -32,9 +32,9 @@ assert.equal(await page.locator('.spreadsheet tbody tr').count(),1);
 await page.getByRole('button',{name:'오류 없음 확인',exact:true}).first().click();await expect(page.getByRole('button',{name:'오류 없음 확인 취소',exact:true})).toBeVisible();await page.getByRole('button',{name:'Lesson 검수 완료',exact:true}).click();
 await page.getByText('변경 내용이 저장되었습니다.',{exact:true}).waitFor();
 await expect(page.getByRole('button',{name:'Lesson 검수 완료',exact:true})).toBeDisabled();
-await nav('검수 관리').click();
+await nav('검수 관리').click();await page.getByRole('button',{name:'전체 레벨 통합 조회',exact:true}).click();
 assert.ok(await page.locator('.first-review').count());assert.ok(await page.locator('.final-review').count());assert.equal(await page.locator('.spreadsheet thead th').count(),14);await page.getByLabel('검수 상태 필터').selectOption('Open');assert.equal(await page.locator('.error-row').count(),1);await page.getByLabel('검수 상태 필터').selectOption('');
-assert.equal(await page.locator('.spreadsheet .error-row').count(),10);
+assert.equal(await page.locator('.spreadsheet .error-row').count(),22);
 // Add exactly one error row, cascade selection, inline edit and autocomplete.
 await page.getByRole('button',{name:'행 추가',exact:true}).click();
 let row=page.locator('.spreadsheet .new-row');
@@ -64,7 +64,7 @@ await row.locator('.image-actions').nth(1).getByRole('button',{name:'삭제',exa
 assert.equal(await row.locator('.thumbnail').count(),2);
 await page.getByRole('button',{name:'변경 저장',exact:true}).click();await expect(page.getByRole('button',{name:'변경 저장',exact:true})).toBeDisabled();
 await expect(page.getByRole('button',{name:'변경 저장',exact:true})).toBeDisabled();
-await page.reload();await page.getByRole('heading',{name:'콘텐츠 제작 현황'}).waitFor();await nav('검수 관리').click();
+await page.reload();await page.getByRole('heading',{name:'콘텐츠 제작 현황'}).waitFor();await nav('검수 관리').click();await page.getByRole('button',{name:'전체 레벨 통합 조회',exact:true}).click();
 await page.getByLabel('검수 검색').fill('실제 이미지 Excel 검증');
 row=page.locator(`[data-log-id="${id}"]`);await row.locator('.thumbnail').nth(1).waitFor();assert.equal(await row.locator('.thumbnail').count(),2);
 const statusOptions=await row.getByLabel(`STATUS ${id}`,{exact:true}).locator('option').allTextContents();assert.equal(statusOptions.length,8);assert.ok(statusOptions.includes('Need to check on the smartboard'));await row.getByLabel(`STATUS ${id}`,{exact:true}).selectOption('Revised');await row.getByLabel(`처리 결과 ${id}`,{exact:true}).fill('가상 수정 반영 완료');
@@ -86,6 +86,6 @@ await nav('자료 관리').click();assert.equal(await page.locator('.material').
 await page.getByRole('button',{name:'자료 등록',exact:true}).click();await page.getByLabel('자료명').fill('자료 파일 보존');await page.getByLabel('등록 방식').selectOption('file');await page.locator('.modal input[type=file]').setInputFiles({name:'sample.txt',mimeType:'text/plain',buffer:Buffer.from('가상 데이터')});await page.getByRole('button',{name:'저장',exact:true}).click();await page.getByText('자료 파일 보존',{exact:true}).waitFor();
 await nav('사용자·권한').click();await page.getByRole('heading',{name:'역할별 기능 권한'}).waitFor();
 const persisted=await page.evaluate(()=>new Promise((resolve,reject)=>{const req=indexedDB.open('pond-admin',1);req.onsuccess=()=>{const r=req.result.transaction('workspace').objectStore('workspace').get('current');r.onsuccess=()=>resolve(r.result);r.onerror=reject;};}));
-assert.equal(persisted.logs.length,10);const checkedLesson=persisted.lessons.find(l=>l.name==='Zero Log Lesson');assert.equal(checkedLesson.status,'검수 완료');assert.ok(!checkedLesson.noErrors?.['1st Review']);assert.equal(persisted.materials.length,13);assert.equal(persisted.logs[0].STATUS,'Open');assert.equal(persisted.logs[0].legacyScreenshot,'https://example.com/old.png');assert.equal(persisted.projects[0].name,'보존 샘플 Level');
+assert.equal(persisted.logs.length,22);const checkedLesson=persisted.lessons.find(l=>l.name==='Zero Log Lesson');assert.equal(checkedLesson.status,'검수 완료');assert.ok(!checkedLesson.noErrors?.['1st Review']);assert.equal(persisted.materials.length,13);assert.equal(persisted.logs[0].STATUS,'Open');assert.equal(persisted.logs[0].legacyScreenshot,'https://example.com/old.png');assert.equal(persisted.projects[0].name,'보존 샘플 Level');
 assert.deepEqual(errors,[]);console.log('PASS: v1 보존 / 4단계 생성·수정 / 0건 Lesson 완료 / 직접 셀 편집·삭제·저장 / 이미지 2장·교체·삭제·붙여넣기·확대·새로고침 / Excel 실 이미지 2장 / 계층·차수 필터 / 자료·권한 유지');
 await browser.close();

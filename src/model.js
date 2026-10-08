@@ -56,6 +56,7 @@ export function hierarchy(d,lessonId) {
 }
 export function linkedLog(d,log,lessonId) {
   const h=hierarchy(d,lessonId);
+  if((!h.lesson||!h.unit||!h.textbook||!h.level)&&lessonId===log.lessonId)return {...log,lessonId};
   return {...log,lessonId,TEXTBOOK:h.textbook?.name||'',UNIT:h.unit?.name||'',LESSON:h.lesson?`Lesson ${h.lesson.number} · ${h.lesson.name}`:''};
 }
 export function normalizeLogs(d,logs) {return logs.map(l=>linkedLog(d,l,l.lessonId));}
@@ -92,4 +93,40 @@ export function applyReviewLogs(data,logs){
   return {...lesson,noErrors};
  });
  return {...data,lessons,logs};
+}
+
+export const initialReviewLevels=['ECP6m','ECP7m','ECP7','S1','MAG1','MAG2'];
+export function ensureReviewLevels(input){
+ if(input.reviewNavigationVersion===1)return input.legacyReviewLevelIds?input:{...input,legacyReviewLevelIds:input.projects.filter(p=>!input.reviewLevelIds?.includes(p.id)).map(p=>p.id)};
+ const data=structuredClone(input);
+ data.reviewNavigationVersion=1;
+ data.reviewLevelIds=[];
+ const previousLevelIds=data.projects.map(p=>p.id);
+ initialReviewLevels.forEach((name,index)=>{
+  // 명칭이 이미 정확히 등록된 Level은 재사용하며 기존 데이터를 옮기지 않는다.
+  let level=data.projects.find(p=>p.name===name);
+  if(!level){
+   const id=`review-level-${name}`;
+   level={id,name,course:'가상 검수 콘텐츠',team:'샘플 콘텐츠팀',owner:'샘플 담당자',start:'2026-10-01',end:'2026-11-30',status:'진행 중'};
+   data.projects.push(level);
+   const textbookId=`review-book-${name}`,unitId=`review-unit-${name}`;
+   data.textbooks.push({id:textbookId,levelId:id,name:`${name} Sample Textbook`,description:'레벨 탐색을 확인하기 위한 가상 교재'});
+   data.units.push({id:unitId,textbookId,name:'Unit 01',description:'가상 Unit'});
+   [1,2].forEach(n=>data.lessons.push({id:`review-lesson-${name}-${n}`,projectId:id,unitId,number:String(n).padStart(2,'0'),name:`Sample Lesson ${n}`,team:level.team,owner:level.owner,sourceDue:'2026-10-12',authorDue:'2026-10-19',reviewDue:'2026-10-26',status:n===2?'검수 완료':'검수 대기'}));
+   ['1st Review','Final Review'].forEach((round,n)=>data.logs.push(linkedLog(data,{id:`review-log-${name}-${n}`,PIC:'샘플 담당자',CLASS:'Class A',ACTIVITY:'Activity 01','TEXTBOOK PAGE NO.':'12','ERROR TYPE':n?'UI':'Content',DETAILS:n?'샘플 버튼 정렬을 확인해주세요.':'샘플 문항 지시문을 확인해주세요.',screenshots:[],SCREENSHOT:'',STATUS:n?'Revised':"Need Dev's check",'처리 결과':n?'샘플 수정 반영':'','검수 차수':round,'검수자':'샘플 검수자','등록일':'2026-10-08','수정자':'','수정일':'','재검수 결과':''},`review-lesson-${name}-1`)));
+  }
+  data.reviewLevelIds.push(level.id);
+ });
+ data.legacyReviewLevelIds=previousLevelIds.filter(id=>!data.reviewLevelIds.includes(id));
+ return data;
+}
+export function reviewSummary(data,levelId){
+ const lessons=data.lessons.filter(l=>!needsReviewAssignment(data,{lessonId:l.id})&&hierarchy(data,l.id).level?.id===levelId);
+ const ids=new Set(lessons.map(l=>l.id));
+ const logs=data.logs.filter(l=>ids.has(l.lessonId));
+ return {lessons:lessons.length,pending:logs.filter(l=>hasPendingReview(l.STATUS)).length,completed:lessons.filter(l=>l.status==='검수 완료').length};
+}
+export function needsReviewAssignment(data,log){
+ const h=hierarchy(data,log.lessonId);
+ return !h.lesson||!h.unit||!h.textbook||!h.level||h.textbook.levelId!==h.lesson.projectId;
 }
