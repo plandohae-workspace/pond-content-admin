@@ -1,3 +1,4 @@
+import {traceLessonSave,saveErrorMessage} from './runtime.js';
 import React,{useState,useEffect,useRef} from 'react';
 import {X,Check,Clock} from 'lucide-react';
 import {Cascade} from './Hierarchy.jsx';
@@ -17,19 +18,20 @@ export default function LessonEditor({data,lesson,onSave,onClose,can,onDirty}){
  const field=(key,label,type='text',required=true)=><label>{label}{required&&<em> *</em>}<input aria-label={label} required={required} type={type} value={draft[key]||''} onChange={e=>patch({[key]:e.target.value})}/></label>;
  const stageField=(key,label,type='text',wide=false)=><label className={wide?'wide':undefined}>{label}{key==='actualComplete'&&stage.status==='완료'&&<em> * 필수</em>}<input aria-label={`단계 ${label}`} type={type} aria-invalid={!!error&&error.startsWith(`${definition.name}:`)&&((key==='actualComplete'&&/실제 완료일/.test(error))||(key==='plannedStart'&&/예정 시작일/.test(error)))} aria-describedby={error?'lesson-save-error':undefined} value={stage[key]||''} onChange={e=>patchStage({[key]:e.target.value})}/></label>;
  async function submit(e){
-  e.preventDefault();if(busy)return;
+  e.preventDefault();traceLessonSave('저장 버튼 클릭 감지',{lessonId:draft.id,stageId:step,tab});if(busy)return;
   if(!can('Lesson 수정')){setError('현재 역할에는 Lesson 수정 권한이 없습니다.');return;}
   const invalid=[...e.currentTarget.elements].find(el=>el.validity?.badInput);
   if(invalid){console.warn('[Lesson 날짜 입력 오류]',{lessonId:draft.id,field:invalid.getAttribute('aria-label')});setError(`${invalid.getAttribute('aria-label')||'입력값'}: 올바른 날짜를 달력에서 선택해주세요.`);return;}
   setBusy(true);
   try{
    const original=data.lessons.find(l=>l.id===draft.id);
-   const validation=validateLesson(data,draft,{original});if(validation){console.warn('[Lesson 저장 검증 실패]',{lessonId:draft.id,selectedStage:step,reason:validation});setError(validation);return;}
-   const item=saveLessonDraft(data,original,draft);
-   const saved=await onSave({...item,id:item.id||crypto.randomUUID()});
-   if(saved===true){setDirty(false);onClose();}
+   const validation=validateLesson(data,draft,{original});traceLessonSave('입력값 검증 결과',{lessonId:draft.id,stageId:step,valid:!validation,reason:validation});if(validation){console.warn('[Lesson 저장 검증 실패]',{lessonId:draft.id,selectedStage:step,reason:validation});setError(validation);return;}
+   traceLessonSave('변경 이력·저장 데이터 생성',{lessonId:draft.id,stageId:step});const item=saveLessonDraft(data,original,draft);
+   traceLessonSave('저장 함수 호출',{lessonId:item.id,stageId:step});const saved=await onSave({...item,id:item.id||crypto.randomUUID()});
+   traceLessonSave('저장 함수 결과',{lessonId:item.id,stageId:step,saved});
+   if(saved===true){setDirty(false);traceLessonSave('팝업 닫기 함수 호출',{lessonId:item.id,stageId:step});onClose();}
    else {console.error('[Lesson 저장 실패]',{lessonId:draft.id,selectedStage:step,reason:'저장 함수가 성공을 반환하지 않음'});setError('브라우저 저장소에 저장하지 못했습니다. 저장 공간·사이트 저장 권한을 확인하고 다시 시도해주세요. 입력 내용은 유지됩니다.');}
-  }catch(err){console.error('[Lesson 저장 실패]',{lessonId:draft.id,selectedStage:step,error:err});setError(`저장에 실패했습니다: ${err instanceof Error?err.message:'알 수 없는 저장 오류'}. 입력 내용은 유지됩니다.`);}
+  }catch(err){console.error('[Lesson 저장 실패]',{lessonId:draft.id,selectedStage:step,error:err});setError(saveErrorMessage(err));}
   finally{setBusy(false);}
  }
 
