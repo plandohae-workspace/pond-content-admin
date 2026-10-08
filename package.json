@@ -13,7 +13,8 @@
     "test:browser": "node tests/smoke.mjs",
     "test:navigation": "node tests/review-navigation.mjs",
     "test:lessons": "node tests/lesson-navigation.mjs",
-    "test:lesson-editor": "node tests/lesson-editor.mjs"
+    "test:lesson-editor": "node tests/lesson-editor.mjs",
+    "test:lesson-save": "node tests/lesson-save-regression.mjs"
   },
   "dependencies": {
     "exceljs": "^4.4.0",

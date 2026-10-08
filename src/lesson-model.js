@@ -38,15 +38,24 @@ export function lessonStats(data,levelId,today=businessToday()){
 export function visibleLessons(data){const ids=new Set(reviewLevelOptions(data).map(l=>l.id));return data.lessons.filter(l=>ids.has(hierarchy(data,l.id).level?.id)&&!needsReviewAssignment(data,{lessonId:l.id}));}
 export function draftLesson(lesson){return {...structuredClone(lesson),production:{...structuredClone(lesson.production||{}),stages:productionStages(lesson)}};}
 function validDate(value){return !value||/^\d{4}-\d{2}-\d{2}$/.test(value)&&!Number.isNaN(Date.parse(value))&&new Date(value).toISOString().slice(0,10)===value;}
-export function validateLesson(data,draft){
+export function changedLessonStages(original,draft){
+ if(!original)return productionDefinitions.map(d=>d.id);
+ const before=productionStages(original),after=productionStages(draft);
+ return productionDefinitions.filter(d=>JSON.stringify(before[d.id])!==JSON.stringify(after[d.id])).map(d=>d.id);
+}
+export function validateLesson(data,draft,{original}={}){
+ const changed=new Set(changedLessonStages(original,draft));
+ const basicChanged=!original||['number','name','team','owner','unitId','projectId','sourceDue','authorDue','reviewDue','status'].some(key=>original[key]!==draft[key]);
+ if(basicChanged){
  const unit=data.units.find(u=>u.id===draft.unitId),book=data.textbooks.find(t=>t.id===unit?.textbookId);
  if(!book||!data.projects.some(p=>p.id===book.levelId))return 'Level, Textbook, Unit을 모두 선택해주세요.';
  if(!draft.number?.trim()||!draft.name?.trim()||!draft.team?.trim()||!draft.owner?.trim())return 'Lesson 번호·이름·담당팀·담당자는 필수입니다.';
  for(const key of ['sourceDue','authorDue','reviewDue'])if(!draft[key]||!validDate(draft[key]))return '기본 제작 일정에 올바른 날짜를 입력해주세요.';
  if(draft.sourceDue>draft.authorDue||draft.authorDue>draft.reviewDue)return '소스 → 저작 → 검수 일정 순서를 확인해주세요.';
  if(data.lessons.some(l=>l.id!==draft.id&&l.unitId===draft.unitId&&l.number.trim()===draft.number.trim()))return '같은 Unit에 동일한 Lesson 번호가 있습니다.';
+ }
  const stages=productionStages(draft);
- for(const d of productionDefinitions){
+ for(const d of productionDefinitions.filter(d=>changed.has(d.id))){
   const s=stages[d.id];
   if(!productionStatuses.includes(s.status))return `${d.name}: 올바른 상태를 선택해주세요.`;
   if(![s.plannedStart,s.deadline,s.actualStart,s.actualComplete].every(validDate))return `${d.name}: 올바른 날짜를 입력해주세요.`;
@@ -55,9 +64,9 @@ export function validateLesson(data,draft){
   if(s.status==='완료'&&!s.actualComplete)return `${d.name}: 완료 단계에는 실제 완료일을 입력해주세요.`;
   if(d.round&&s.status==='완료'&&lessonReview(data,draft,d.round).pending>0)return `${d.name}: 미해결 검수 오류를 먼저 처리해주세요.`;
  }
- if(stages.delivery.status==='완료'&&productionDefinitions.slice(0,5).some(d=>stages[d.id].status!=='완료'))return '제작 완료 처리 전에 앞선 5개 단계를 모두 완료해주세요.';
- if(draft.status==='검수 완료'&&data.lessons.find(l=>l.id===draft.id)?.status!=='검수 완료'&&['firstReview','finalReview'].some(key=>stages[key].status!=='완료'))return '1차·최종 검수를 명시적으로 완료한 뒤 Lesson 검수 완료를 선택해주세요.';
- if(draft.status==='검수 완료'&&['1st Review','Final Review'].some(round=>lessonReview(data,draft,round).pending>0))return '미해결 오류가 있어 Lesson 검수 완료 상태로 저장할 수 없습니다.';
+ if(changed.size>0&&stages.delivery.status==='완료'&&productionDefinitions.slice(0,5).some(d=>stages[d.id].status!=='완료'))return '제작 완료 처리 전에 앞선 5개 단계를 모두 완료해주세요.';
+ if(basicChanged&&draft.status==='검수 완료'&&data.lessons.find(l=>l.id===draft.id)?.status!=='검수 완료'&&['firstReview','finalReview'].some(key=>stages[key].status!=='완료'))return '1차·최종 검수를 명시적으로 완료한 뒤 Lesson 검수 완료를 선택해주세요.';
+ if(basicChanged&&draft.status==='검수 완료'&&['1st Review','Final Review'].some(round=>lessonReview(data,draft,round).pending>0))return '미해결 오류가 있어 Lesson 검수 완료 상태로 저장할 수 없습니다.';
  return '';
 }
 function audit(lesson,stageId,from,to,reason,at){
@@ -70,7 +79,7 @@ export function saveLessonDraft(data,original,draft,at=new Date().toISOString())
  if(book)next.projectId=book.levelId;
  const previous=productionStages(original||next),stages=next.production.stages;
  if(next.status==='검수 완료'&&productionDefinitions.filter(d=>d.round).some(d=>previous[d.id].status==='완료'&&stages[d.id].status!=='완료'))next.status='검수 대기';
- for(const d of productionDefinitions){
+ for(const d of productionDefinitions.filter(d=>changedLessonStages(original,next).includes(d.id))){
   const before=previous[d.id],after=stages[d.id];
   if(JSON.stringify(before)!==JSON.stringify(after))next.productionHistory=audit(next,d.id,before,after,'담당자 수정',at);
   if(d.round){
