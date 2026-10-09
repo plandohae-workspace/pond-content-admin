@@ -27,3 +27,5 @@
 @media(max-width:1200px){.review-wide-card{grid-template-columns:140px minmax(150px,1fr) 210px 14px;gap:16px}.review-wide-rounds{padding-left:14px;gap:12px}}
 @media(max-width:1000px){.level-overview-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.review-wide-card{grid-template-columns:140px minmax(0,1fr) 14px}.review-wide-rounds{grid-column:2;grid-row:2;border-left:0;padding-left:0}.review-wide-card>svg{grid-column:3;grid-row:1}}
 @media(max-width:650px){.level-overview-grid{grid-template-columns:1fr}.level-overview-heading{align-items:flex-start;flex-direction:column}.review-wide-card{grid-template-columns:minmax(0,1fr) 14px;padding:18px;gap:16px}.review-wide-name{grid-column:1}.review-wide-progress{grid-column:1/-1;grid-row:2}.review-wide-rounds{grid-column:1/-1;grid-row:3}.review-wide-card>svg{grid-column:2;grid-row:1}}
+/* Separate the review library from the administrative archive only. */
+.review-browser .review-wide-list + .legacy-levels{margin-top:36px}
