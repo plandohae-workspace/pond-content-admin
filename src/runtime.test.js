@@ -1,0 +1,4 @@
+import test from 'node:test';import assert from 'node:assert/strict';
+import {webcrypto} from 'node:crypto';import {uuidV4,installUUIDCompatibility} from './runtime.js';
+test('미리보기 비보안 컨텍스트 UUID 호환 생성은 암호학적 난수와 UUID v4 형식을 유지',()=>{const api={getRandomValues:array=>webcrypto.getRandomValues(array)};assert.equal(installUUIDCompatibility(api),true);const ids=new Set(Array.from({length:1000},()=>api.randomUUID()));assert.equal(ids.size,1000);for(const id of ids)assert.match(id,/^[\da-f]{8}-[\da-f]{4}-4[\da-f]{3}-[89ab][\da-f]{3}-[\da-f]{12}$/);assert.equal(installUUIDCompatibility(api),false);});
+test('브라우저 기존 UUID 함수 유지, 난수 API가 없으면 명확한 오류',()=>{const original=()=> 'native';const api={randomUUID:original};assert.equal(installUUIDCompatibility(api),false);assert.equal(api.randomUUID,original);assert.throws(()=>uuidV4({}),/ID를 생성할 수 없습니다/);});

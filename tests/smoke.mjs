@@ -28,8 +28,8 @@ await panel.getByRole('button',{name:'수정',exact:true}).click();await page.ge
 await page.getByRole('button',{name:'Lesson 추가'}).click();
 await page.getByLabel('Lesson명').fill('Zero Log Lesson');await page.getByLabel('담당자').fill('가상 담당자');await page.getByRole('button',{name:'저장',exact:true}).click();
 await page.getByRole('button',{name:'Lesson 01 · Zero Log Lesson'}).click();
-assert.equal(await page.locator('.spreadsheet tbody tr').count(),1);
-await page.getByRole('button',{name:'오류 없음 확인',exact:true}).first().click();await expect(page.getByRole('button',{name:'오류 없음 확인 취소',exact:true})).toBeVisible();await page.getByRole('button',{name:'Lesson 검수 완료',exact:true}).click();
+assert.equal(await page.locator('[data-review-round] dd').nth(0).textContent(),'0건');
+await page.getByRole('button',{name:'오류 없음 확인',exact:true}).first().click();await expect(page.getByRole('button',{name:'오류 없음 확인 취소',exact:true})).toBeVisible();await page.getByRole('button',{name:'오류 없음 확인',exact:true}).click();
 await page.getByText('변경 내용이 저장되었습니다.',{exact:true}).waitFor();
 await expect(page.getByRole('button',{name:'Lesson 검수 완료',exact:true})).toBeDisabled();
 await nav('검수 관리').click();await page.getByRole('button',{name:'관리자 보존 데이터 조회',exact:true}).click();
@@ -82,10 +82,10 @@ await page.getByLabel('조회 Level',{exact:true}).selectOption({label:'Level Te
 page.once('dialog',d=>d.accept());await row.getByRole('button',{name:`행 삭제 ${id}`,exact:true}).click();await page.getByRole('button',{name:'변경 저장',exact:true}).click();await expect(page.getByRole('button',{name:'변경 저장',exact:true})).toBeDisabled();
 // Source role is read only for review, existing materials and rights screens still work.
 await page.getByRole('button',{name:'레벨 목록으로',exact:true}).click();await page.getByRole('button',{name:'전체 레벨 통합 조회',exact:true}).click();await page.getByLabel('데모 역할').selectOption('Source Team');assert.ok(await page.getByRole('button',{name:'행 추가',exact:true}).isDisabled());
-await nav('자료 관리').click();assert.equal(await page.locator('.material').count(),12);
-await page.getByRole('button',{name:'자료 등록',exact:true}).click();await page.getByLabel('자료명').fill('자료 파일 보존');await page.getByLabel('등록 방식').selectOption('file');await page.locator('.modal input[type=file]').setInputFiles({name:'sample.txt',mimeType:'text/plain',buffer:Buffer.from('가상 데이터')});await page.getByRole('button',{name:'저장',exact:true}).click();await page.getByText('자료 파일 보존',{exact:true}).waitFor();
+await nav('자료 관리').click();assert.equal(await page.locator('.material-row').count(),0);
+await page.getByRole('button',{name:'자료 등록',exact:true}).click();await page.getByLabel('자료명').fill('자료 파일 보존');for(const label of ['Level','Textbook','Unit','Lesson']){const select=page.getByLabel(`자료 ${label}`,{exact:true});if(label!=='Level')await select.selectOption(await select.locator('option').nth(1).getAttribute('value'));}await page.getByLabel('등록 방식').selectOption('file');await page.locator('.modal input[type=file]').setInputFiles({name:'sample.txt',mimeType:'text/plain',buffer:Buffer.from('가상 데이터')});await page.getByRole('button',{name:'저장',exact:true}).click();await page.getByText('자료 파일 보존',{exact:true}).waitFor();
 await nav('사용자·권한').click();await page.getByRole('heading',{name:'역할별 기능 권한'}).waitFor();
 const persisted=await page.evaluate(()=>new Promise((resolve,reject)=>{const req=indexedDB.open('pond-admin',1);req.onsuccess=()=>{const r=req.result.transaction('workspace').objectStore('workspace').get('current');r.onsuccess=()=>resolve(r.result);r.onerror=reject;};}));
-assert.equal(persisted.logs.length,22);const checkedLesson=persisted.lessons.find(l=>l.name==='Zero Log Lesson');assert.equal(checkedLesson.status,'검수 완료');assert.ok(!checkedLesson.noErrors?.['1st Review']);assert.equal(persisted.materials.length,13);assert.equal(persisted.logs[0].STATUS,'Open');assert.equal(persisted.logs[0].legacyScreenshot,'https://example.com/old.png');assert.equal(persisted.projects[0].name,'보존 샘플 Level');
+assert.equal(persisted.logs.length,22);const checkedLesson=persisted.lessons.find(l=>l.name==='Zero Log Lesson');assert.equal(checkedLesson.status,'수정 중');assert.equal(checkedLesson.production.stages.firstReview.status,'진행 중');assert.ok(checkedLesson.productionHistory.length>=3);assert.ok(!checkedLesson.noErrors?.['1st Review']);assert.equal(persisted.materials.length,13);assert.equal(persisted.logs[0].STATUS,'Open');assert.equal(persisted.logs[0].legacyScreenshot,'https://example.com/old.png');assert.equal(persisted.projects[0].name,'보존 샘플 Level');
 assert.deepEqual(errors,[]);console.log('PASS: v1 보존 / 4단계 생성·수정 / 0건 Lesson 완료 / 직접 셀 편집·삭제·저장 / 이미지 2장·교체·삭제·붙여넣기·확대·새로고침 / Excel 실 이미지 2장 / 계층·차수 필터 / 자료·권한 유지');
 await browser.close();

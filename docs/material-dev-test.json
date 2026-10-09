@@ -1,0 +1,20 @@
+{
+  "artifact": "artifacts/POND-Admin.html",
+  "standaloneSandbox": false,
+  "hiddenScrollbarAndWheel": true,
+  "smallViewportSaveAccessible": true,
+  "sixLevelNavigation": true,
+  "defaultECP6m": true,
+  "levelRegistrationLocked": true,
+  "legacyPreserved": true,
+  "registration": true,
+  "searchAndCascade": true,
+  "editDelete": true,
+  "imagePreview": true,
+  "downloadBytesMatch": true,
+  "reloadFilePreserved": true,
+  "lessonLink": true,
+  "lessonSavePreserved": true,
+  "oversizeRejected": true,
+  "consoleErrors": []
+}

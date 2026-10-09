@@ -1,0 +1,58 @@
+{
+  "artifact": "artifacts/POND-Admin.html",
+  "results": [
+    {
+      "mode": "ordinary-http",
+      "capabilities": {
+        "secure": false,
+        "randomUUID": "undefined",
+        "getRandomValues": "function"
+      },
+      "artifactSha256": "c4104b5dd607ec0ed57bd781ed756d9a3ce1d4960c4f7d7cfa85f8357ef802cb",
+      "build": "561e6cdd4149",
+      "events": [
+        "저장 버튼 클릭 감지",
+        "입력값 검증 결과",
+        "변경 이력·저장 데이터 생성",
+        "저장 함수 호출",
+        "저장소 함수 호출",
+        "저장소 트랜잭션 성공",
+        "저장 함수 결과",
+        "팝업 닫기 함수 호출",
+        "화면 상태 갱신 완료"
+      ],
+      "saved": true,
+      "modalClosed": true,
+      "refreshPreserved": true,
+      "reviewImageExcel": "passed",
+      "pageErrors": []
+    },
+    {
+      "mode": "trusted-localhost",
+      "capabilities": {
+        "secure": true,
+        "randomUUID": "function",
+        "getRandomValues": "function"
+      },
+      "artifactSha256": "c4104b5dd607ec0ed57bd781ed756d9a3ce1d4960c4f7d7cfa85f8357ef802cb",
+      "build": "561e6cdd4149",
+      "events": [
+        "저장 버튼 클릭 감지",
+        "입력값 검증 결과",
+        "변경 이력·저장 데이터 생성",
+        "저장 함수 호출",
+        "저장소 함수 호출",
+        "저장소 트랜잭션 성공",
+        "저장 함수 결과",
+        "팝업 닫기 함수 호출",
+        "화면 상태 갱신 완료"
+      ],
+      "saved": true,
+      "modalClosed": true,
+      "refreshPreserved": true,
+      "reviewImageExcel": "not-run",
+      "pageErrors": []
+    }
+  ],
+  "fileProtocol": "미검증: 환경의 Chromium 관리자 정책이 file:// 탐색을 차단함"
+}
