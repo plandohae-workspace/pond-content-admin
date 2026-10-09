@@ -8,8 +8,8 @@
         "randomUUID": "undefined",
         "getRandomValues": "function"
       },
-      "artifactSha256": "4760cb5bf6233e49cda81fd3c4d53f9c4501a5f2b4efb08c0756a47bea8f75d0",
-      "build": "f65ec63c351c",
+      "artifactSha256": "463bc78d3f4b04090dd148d55d45837e1bb0fe289c30e700f10dbb27f595c20f",
+      "build": "bf5a63a9916e",
       "events": [
         "저장 버튼 클릭 감지",
         "입력값 검증 결과",
@@ -34,8 +34,8 @@
         "randomUUID": "function",
         "getRandomValues": "function"
       },
-      "artifactSha256": "4760cb5bf6233e49cda81fd3c4d53f9c4501a5f2b4efb08c0756a47bea8f75d0",
-      "build": "f65ec63c351c",
+      "artifactSha256": "463bc78d3f4b04090dd148d55d45837e1bb0fe289c30e700f10dbb27f595c20f",
+      "build": "bf5a63a9916e",
       "events": [
         "저장 버튼 클릭 감지",
         "입력값 검증 결과",

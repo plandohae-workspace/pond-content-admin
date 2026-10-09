@@ -234,3 +234,13 @@ npm run test:html-save
 이 전용 검사는 Vite 서버 없이 최종 `artifacts/POND-Admin.html` 파일 바이트 그대로를 Chromium에서 실행합니다. 별도 일반 HTTP 및 localhost 컨텍스트에서 실제 IndexedDB를 사용하여 지정한 ECP6m Lesson 01, 소스 완료, 예정/실제 시작 2026-10-01, 예정/실제 완료 2026-10-02의 저장·닫힘·상세·새로고침·이력을 검사합니다. 원래 브라우저 API를 관찰하며 UUID/저장소를 가짜로 대체하지 않습니다. 결과의 파일 SHA256과 진단 단계는 `docs/standalone-save-test.json`에 남깁니다.
 
 **file:// 직접 열기는 이 클라우드 Chromium 관리자 정책으로 차단되어 미검증입니다.** 최종 HTML의 브라우저 실행과 HTTP origin별 저장·복원은 검증했지만 파일 프로토콜 검사로 간주하지 않습니다. 사용자 브라우저의 사이트/파일 저장 권한 정책에 따라 IndexedDB가 차단될 수 있습니다. 데이터 초기화로 이 오류를 해결하지 마세요.
+
+### 저장 버튼 무반응: 미리보기 iframe의 폼 제출 제한
+
+`01524aa`의 HTML을 `allow-forms`가 없는 iframe에서 실제로 클릭했을 때 **버튼은 눌렸지만 form의 React onSubmit은 호출되지 않았습니다.** 브라우저 콘솔에는 `Blocked form submission ... the 'allow-forms' permission is not set`이 남았으며 팝업은 그대로였습니다. 이 경우 UUID·검증·저장소 함수까지 도달하지 않기 때문에 기존 저장 추적도 출력되지 않습니다. 사용자 미리보기 컨테이너의 실제 설정을 읽은 것은 아니며, 동일한 무반응을 재현한 환경 조건입니다.
+
+`LessonEditor.jsx`의 저장 버튼은 이제 `type="button"`과 직접 `onClick={submit}`으로 로컬 저장 함수를 호출합니다. 폼 제출/네트워크 전송 또는 iframe 권한 변경은 사용하지 않습니다. 같은 함수에서 기존 변경 범위 검증·실제 IndexedDB 저장 성공·팝업 닫힘을 처리합니다. 버튼의 form 참조를 사용하도록 입력 검사 연결을 바꿨고 저장 중 중복 호출은 ref로 차단합니다. 기본 정보 텍스트 필드의 Enter도 같은 함수에 연결했습니다. 날짜 순서·실제 완료일 필수·미해결 검수 조건은 유지합니다.
+
+`npm run test:html-sandbox`는 최종 HTML 파일의 원본 바이트를 Chromium iframe에서 실행해 실제 저장 버튼 클릭, 성공 안내, 자동 닫힘, 편집 창 다시 열기, 새로고침 복원 및 잘못된 날짜의 오류 안내를 검사합니다. iframe의 `allow-forms` 권한은 추가하지 않습니다. 기존 `test:html-save`의 일반 HTTP/localhost 및 이미지 포함 Excel 검사도 유지합니다. `docs/standalone-sandbox-test.json`에 최종 HTML 해시와 검사 결과를 남깁니다.
+
+`file://` 직접 열기는 Chromium 관리자 정책 때문에 미검증입니다. 추가로 공식 Debian 서명 저장소의 Firefox를 별도 `/tmp` 경로에 준비했지만 이 실행 환경에서 브라우저가 초기화되지 않아 직접 파일 검사에 사용하지 못했습니다. 최종 HTML 원본을 브라우저에서 실행한 iframe/HTTP 검사와 파일 프로토콜 검사는 구분합니다. 미검증 항목을 통과로 표시하지 않습니다.
