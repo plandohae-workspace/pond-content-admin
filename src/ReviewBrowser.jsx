@@ -4,9 +4,9 @@ import {reviewMetrics} from './level-metrics.js';
 import ReviewGrid from './ReviewGrid.jsx';
 import {Cascade} from './Hierarchy.jsx';
 import {hierarchy,reviewSummary,needsReviewAssignment,reviewLevelOptions,archivedReviewLevelIds} from './model.js';
-export default function ReviewBrowser({data,save,can,exportLogs,notify,onDirty,initialLessonId,initialRound}){
+export default function ReviewBrowser({data,save,can,exportLogs,notify,onDirty,initialLessonId,initialLevelId,initialRound}){
  const initial=hierarchy(data,initialLessonId),archived=archivedReviewLevelIds(data).includes(initial.level?.id);
- const [view,setView]=useState(initial.lesson?(archived?'archive':'level'):'cards'),[levelId,setLevel]=useState(initial.level?.id||''),[choice,setChoice]=useState(initial.lesson?{levelId:initial.level?.id,textbookId:initial.textbook?.id,unitId:initial.unit?.id,lessonId:initial.lesson.id}:{}),[round,setRound]=useState(initialRound||'1st Review'),[dirty,setDirty]=useState(false);
+ const [view,setView]=useState(initial.lesson?(archived?'archive':'level'):initialLevelId?'level':'cards'),[levelId,setLevel]=useState(initial.level?.id||initialLevelId||''),[choice,setChoice]=useState(initial.lesson?{levelId:initial.level?.id,textbookId:initial.textbook?.id,unitId:initial.unit?.id,lessonId:initial.lesson.id}:initialLevelId?{levelId:initialLevelId}:{}),[round,setRound]=useState(initialRound||'1st Review'),[dirty,setDirty]=useState(false);
  const level=data.projects.find(p=>p.id===levelId);
  const changeDirty=useCallback(value=>{setDirty(value);onDirty(value);},[onDirty]);
  const guarded=action=>{if(dirty&&!confirm('저장하지 않은 검수 변경을 버리고 이동할까요?'))return;setDirty(false);onDirty(false);action();};
