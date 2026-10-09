@@ -1,0 +1,16 @@
+{
+  "artifact": "artifacts/POND-Admin.html",
+  "standaloneSandbox": true,
+  "hiddenScrollbarAndWheel": true,
+  "smallViewportSaveAccessible": true,
+  "registration": true,
+  "searchAndCascade": true,
+  "editDelete": true,
+  "imagePreview": true,
+  "downloadBytesMatch": true,
+  "reloadFilePreserved": true,
+  "lessonLink": true,
+  "lessonSavePreserved": true,
+  "oversizeRejected": true,
+  "consoleErrors": []
+}
