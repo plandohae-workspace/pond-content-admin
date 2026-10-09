@@ -17,7 +17,7 @@ await nav('Level').click();
 await page.getByRole('button',{name:'Level 추가',exact:true}).click();
 await page.getByLabel('Level명').fill('Level Test');await page.getByLabel('과정 / 콘텐츠명').fill('가상 콘텐츠');await page.getByLabel('담당자').fill('가상 담당자');
 await page.getByRole('button',{name:'저장',exact:true}).click();
-await page.locator('.hierarchy-select').filter({hasText:'Level Test'}).click();
+await page.getByRole('button',{name:'전체 계층 관리',exact:true}).click();await page.locator('.hierarchy-select').filter({hasText:'Level Test'}).click();
 let panel=page.locator('.hierarchy-panel').nth(1);
 await panel.getByRole('button',{name:'추가',exact:true}).click();await page.getByLabel('이름',{exact:true}).fill('Textbook Test');await page.getByRole('button',{name:'저장',exact:true}).click();
 await panel.locator('.hierarchy-select').filter({hasText:'Textbook Test'}).click();

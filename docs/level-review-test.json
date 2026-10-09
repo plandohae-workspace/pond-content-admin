@@ -1,0 +1,16 @@
+{
+  "artifact": "artifacts/POND-Admin.html",
+  "sha256": "176210213d9be9cb8e5788ea9ad0bbfa58990b54c969853e82dd936adcd0eed5",
+  "sixAuthoringCards": true,
+  "grid321": true,
+  "authoringAverage17": true,
+  "levelDetail": true,
+  "sixReviewWideCards": true,
+  "reviewIndependent50And0Overall25": true,
+  "emptyData": true,
+  "reviewDetailsAndLogSave": true,
+  "lessonStageSave": true,
+  "reload": true,
+  "materialUI": true,
+  "consoleErrors": []
+}
