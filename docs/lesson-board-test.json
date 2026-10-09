@@ -1,0 +1,18 @@
+{
+  "artifact": "artifacts/POND-Admin.html",
+  "sha256": "6bb81bc21d46d79c2160e605bf89a76e8d00d550a2f3aa6281a98ba2b03c8340",
+  "sixLevelIsolation": true,
+  "textbookUnitCascade": true,
+  "search": true,
+  "waitingProgressCompleted": true,
+  "cardDetail": true,
+  "realStageSaveAndHistory": true,
+  "boardImmediatelyUpdated": true,
+  "reloadPreserved": true,
+  "materialsAndLogsPreserved": true,
+  "materialBAndReviewUI": true,
+  "columnWheelScroll": true,
+  "scrollAndFilterFixture": "브라우저 테스트에만 가상 교재·Unit·Lesson 20건 추가; 실제 앱 데이터에 미포함",
+  "narrowHorizontalScroll": true,
+  "consoleErrors": []
+}

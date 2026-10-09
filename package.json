@@ -18,7 +18,8 @@
     "test:html-save": "node tests/standalone-save.mjs",
     "test:html-sandbox": "node tests/standalone-sandbox.mjs",
     "test:modal-scroll": "node tests/lesson-modal-scroll.mjs",
-    "test:materials": "node tests/materials.mjs"
+    "test:materials": "node tests/materials.mjs",
+    "test:lesson-board": "node tests/lesson-board.mjs"
   },
   "dependencies": {
     "exceljs": "^4.4.0",
