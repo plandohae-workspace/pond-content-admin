@@ -16,7 +16,8 @@
     "test:lesson-editor": "node tests/lesson-editor.mjs",
     "test:lesson-save": "node tests/lesson-save-regression.mjs",
     "test:html-save": "node tests/standalone-save.mjs",
-    "test:html-sandbox": "node tests/standalone-sandbox.mjs"
+    "test:html-sandbox": "node tests/standalone-sandbox.mjs",
+    "test:modal-scroll": "node tests/lesson-modal-scroll.mjs"
   },
   "dependencies": {
     "exceljs": "^4.4.0",
