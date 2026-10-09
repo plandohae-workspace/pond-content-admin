@@ -19,7 +19,8 @@
     "test:html-sandbox": "node tests/standalone-sandbox.mjs",
     "test:modal-scroll": "node tests/lesson-modal-scroll.mjs",
     "test:materials": "node tests/materials.mjs",
-    "test:lesson-board": "node tests/lesson-board.mjs"
+    "test:lesson-board": "node tests/lesson-board.mjs",
+    "test:ui-terms": "node tests/ui-terms.mjs"
   },
   "dependencies": {
     "exceljs": "^4.4.0",
