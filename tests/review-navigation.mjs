@@ -11,7 +11,7 @@ legacy.logs.push({id:'orphan-test',lessonId:'unknown-lesson',PIC:'기존 샘플 
 await page.addInitScript(d=>{if(!localStorage.getItem('pond-v1'))localStorage.setItem('pond-v1',JSON.stringify(d));},legacy);
 await page.goto(process.env.POND_TEST_URL||'http://localhost:5173/');await page.getByRole('heading',{name:'콘텐츠 저작 현황'}).waitFor();
 const nav=()=>page.locator('nav').getByRole('button',{name:'검수 관리'}).click();
-await nav();assert.equal(await page.locator('.review-level-grid').first().getByRole('button').count(),6);assert.equal(await page.locator('.spreadsheet').count(),0);
+await nav();assert.equal(await page.locator('.review-wide-list').first().getByRole('button').count(),6);assert.equal(await page.locator('.spreadsheet').count(),0);
 await page.screenshot({path:'docs/review-levels.png',fullPage:true});
 await page.getByRole('button',{name:'ECP6m 검수 관리 열기',exact:true}).click();
 assert.deepEqual(await page.getByLabel('탐색 Level',{exact:true}).locator('option').allTextContents(),['Level 선택','ECP6m','ECP7m','ECP7','S1','MAG1','MAG2']);await expect(page.locator('.review-breadcrumb')).toContainText('ECP6m');assert.equal(await page.locator('[data-summary=lessons]').textContent(),'2');assert.equal(await page.locator('[data-summary=pending]').textContent(),'1');assert.equal(await page.locator('[data-summary=completed]').textContent(),'1');
