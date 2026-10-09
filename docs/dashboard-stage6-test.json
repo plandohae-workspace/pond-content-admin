@@ -1,6 +1,8 @@
 {
   "artifact": "artifacts/POND-Admin.html",
   "kpisMatchStoredData": true,
+  "overdueCardAbsent": true,
+  "upcomingPreserved": true,
   "authoringSaveUpdates": true,
   "independentReviewUpdates": true,
   "deadlineListsMatchStoredData": true,

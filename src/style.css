@@ -42,3 +42,9 @@
 @media(max-width:1050px){.operations-dashboard .dashboard-operating-grid{grid-template-columns:1fr}}
 @media(max-width:600px){.operations-dashboard .overview-line{align-items:flex-start;gap:8px;flex-direction:column}.operations-dashboard .metrics{grid-template-columns:1fr 1fr}.operations-dashboard .dashboard-review-heading,.operations-dashboard .dashboard-review-row{gap:10px;grid-template-columns:52px 1fr 1fr}.operations-dashboard .dashboard-recent-row{flex-wrap:wrap}.operations-dashboard .dashboard-recent-row>span{flex-basis:60%}.operations-dashboard .dashboard-level-row{gap:8px}}
 .operations-dashboard .dashboard-level-row,.operations-dashboard .dashboard-review-row,.operations-dashboard .dashboard-review-heading,.operations-dashboard .dashboard-due,.operations-dashboard .dashboard-recent-row{padding-left:20px;padding-right:20px;box-sizing:border-box}.operations-dashboard .dashboard-reviews>.dashboard-help{padding:0 20px}
+
+/* Level selects: 33px border-box must leave room for the text line. */
+.lesson-browser select,.lesson-editor select{font-family:inherit;line-height:1.5;color-scheme:light}
+.lesson-browser select option,.lesson-editor select option{font-family:inherit;color:#374d43;background:#fff}
+.board-filters .toolbar select{height:33px;padding:6px 10px;box-sizing:border-box;line-height:1.5}
+.operations-dashboard .dashboard-deadlines{grid-template-columns:minmax(0,1fr)}
