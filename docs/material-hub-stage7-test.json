@@ -1,0 +1,23 @@
+{
+  "artifact": "artifacts/POND-Admin.html",
+  "sixKinds": true,
+  "levelAndLessonIsolation": true,
+  "httpsValidation": true,
+  "failedSaveRetainsInput": true,
+  "linkCRUD": true,
+  "safePopup": true,
+  "registrationCounts": true,
+  "reload": true,
+  "legacyMaterialsAndAllOtherDataPreserved": true,
+  "legacyDetail": true,
+  "lessonAndReviewNavigation": true,
+  "rolePermissions": true,
+  "responsive": true,
+  "pageErrors": [],
+  "expectedValidationAndStorageErrors": [
+    "[POND 자료 허브 저장 실패] Error: 원본 URL은 유효한 HTTPS 주소여야 합니다. 사용자 정보가 포함된 주소는 사용할 수 없습니다.\n    at _x (http://pond-hub.test/app:39:87222)\n    at Bb (http://pond-hub.test/app:39:88067)\n    at L (http://pond-hub.test/app:39:102204)\n    at Eg (http://pond-hub.test/app:9:140510)\n    at http://pond-hub.test/app:9:145256\n    at E0 (http://pond-hub.test/app:9:15257)\n    at uf (http://pond-hub.test/app:9:141744)\n    at wh (http://pond-hub.test/app:10:42835)\n    at hx (http://pond-hub.test/app:10:42649)",
+    "[POND 브라우저 저장 실패] QuotaExceededError: 가상 저장 공간 오류",
+    "[POND 자료 허브 저장 실패] QuotaExceededError: 가상 저장 공간 오류"
+  ],
+  "externalAccess": "example.com 가상 원본만 테스트; Google Drive 접근·내용 검수·동기화는 수행하지 않음"
+}

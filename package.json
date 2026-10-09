@@ -23,7 +23,8 @@
     "test:ui-terms": "node tests/ui-terms.mjs",
     "test:level-review": "node tests/level-review.mjs",
     "test:menu-integration": "node tests/menu-integration.mjs",
-    "test:dashboard": "node tests/dashboard.mjs"
+    "test:dashboard": "node tests/dashboard.mjs",
+    "test:material-hub": "node tests/material-hub.mjs"
   },
   "dependencies": {
     "exceljs": "^4.4.0",
