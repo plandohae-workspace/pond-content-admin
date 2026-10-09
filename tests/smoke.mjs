@@ -9,7 +9,7 @@ const errors=[];page.on('pageerror',e=>errors.push(e.message));
 const legacy=seed();legacy.projects[0].name='보존 샘플 Level';legacy.logs[0].STATUS='Open';legacy.logs[0].SCREENSHOT='https://example.com/old.png';
 await page.addInitScript(d=>{if(!localStorage.getItem('pond-v1'))localStorage.setItem('pond-v1',JSON.stringify(d));},legacy);
 await page.goto(process.env.POND_TEST_URL||'http://localhost:5173/');
-await page.getByRole('heading',{name:'콘텐츠 제작 현황'}).waitFor();
+await page.getByRole('heading',{name:'콘텐츠 저작 현황'}).waitFor();
 assert.ok(await page.getByText('보존 샘플 Level',{exact:true}).count());
 await page.screenshot({path:'docs/dashboard.png',fullPage:true});
 const nav=name=>page.locator('nav').getByRole('button',{name,exact:name!=='검수 관리'});
@@ -64,7 +64,7 @@ await row.locator('.image-actions').nth(1).getByRole('button',{name:'삭제',exa
 assert.equal(await row.locator('.thumbnail').count(),2);
 await page.getByRole('button',{name:'변경 저장',exact:true}).click();await expect(page.getByRole('button',{name:'변경 저장',exact:true})).toBeDisabled();
 await expect(page.getByRole('button',{name:'변경 저장',exact:true})).toBeDisabled();
-await page.reload();await page.getByRole('heading',{name:'콘텐츠 제작 현황'}).waitFor();await nav('검수 관리').click();await page.getByRole('button',{name:'관리자 보존 데이터 조회',exact:true}).click();
+await page.reload();await page.getByRole('heading',{name:'콘텐츠 저작 현황'}).waitFor();await nav('검수 관리').click();await page.getByRole('button',{name:'관리자 보존 데이터 조회',exact:true}).click();
 await page.getByLabel('검수 검색').fill('실제 이미지 Excel 검증');
 row=page.locator(`[data-log-id="${id}"]`);await row.locator('.thumbnail').nth(1).waitFor();assert.equal(await row.locator('.thumbnail').count(),2);
 const statusOptions=await row.getByLabel(`STATUS ${id}`,{exact:true}).locator('option').allTextContents();assert.equal(statusOptions.length,8);assert.ok(statusOptions.includes('Need to check on the smartboard'));await row.getByLabel(`STATUS ${id}`,{exact:true}).selectOption('Revised');await row.getByLabel(`처리 결과 ${id}`,{exact:true}).fill('가상 수정 반영 완료');

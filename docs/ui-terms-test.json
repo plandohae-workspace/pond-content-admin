@@ -1,0 +1,21 @@
+{
+  "artifact": "artifacts/POND-Admin.html",
+  "checked": [
+    "대시보드",
+    "Level",
+    "Lesson",
+    "검수 관리",
+    "자료 관리",
+    "사용자·권한",
+    "기존 상태 코드 필터",
+    "Lesson 상세",
+    "기본 정보 모달",
+    "6단계 모달",
+    "검증 오류",
+    "자료 등록 모달",
+    "Level 추가 모달"
+  ],
+  "visibleLegacyTerms": [],
+  "legacyFilterCodePreserved": true,
+  "consoleErrors": []
+}
