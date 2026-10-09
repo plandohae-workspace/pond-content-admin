@@ -1,0 +1,244 @@
+{
+  "artifact": "artifacts/POND-Admin.html",
+  "browser": "Chromium",
+  "closedTextLineFits": true,
+  "nativePopupKeyboardSelection": true,
+  "levelTextbookUnitCascade": true,
+  "statusFilter": true,
+  "archiveAndEditorSelects": true,
+  "narrowScreen": true,
+  "measurements": [
+    {
+      "label": "Lesson 탐색 Textbook",
+      "height": 31,
+      "contentHeight": 19,
+      "lineHeight": 12,
+      "font": "\"Noto Sans KR\", Arial, sans-serif",
+      "text": "모든 Textbook",
+      "options": [
+        "모든 Textbook",
+        "ECP6m Sample Textbook"
+      ]
+    },
+    {
+      "label": "Lesson 탐색 Unit",
+      "height": 31,
+      "contentHeight": 19,
+      "lineHeight": 12,
+      "font": "\"Noto Sans KR\", Arial, sans-serif",
+      "text": "모든 Unit",
+      "options": [
+        "모든 Unit"
+      ]
+    },
+    {
+      "label": "Lesson 상태 필터",
+      "height": 31,
+      "contentHeight": 19,
+      "lineHeight": 12,
+      "font": "\"Noto Sans KR\", Arial, sans-serif",
+      "text": "전체",
+      "options": [
+        "전체",
+        "저작 대기",
+        "저작 중",
+        "보류",
+        "저작 완료",
+        "일정 지연",
+        "소스 대기",
+        "소스 등록",
+        "저작 중",
+        "검수 대기",
+        "수정 중",
+        "Final Review",
+        "검수 완료"
+      ]
+    },
+    {
+      "label": "Lesson 탐색 Level",
+      "height": 31,
+      "contentHeight": 19,
+      "lineHeight": 12,
+      "font": "\"Noto Sans KR\", Arial, sans-serif",
+      "text": "Level 선택",
+      "options": [
+        "Level 선택",
+        "Project A",
+        "Project B",
+        "Project C",
+        "Project D",
+        "ECP6m",
+        "ECP7m",
+        "ECP7",
+        "S1",
+        "MAG1",
+        "MAG2"
+      ]
+    },
+    {
+      "label": "Lesson 탐색 Textbook",
+      "height": 31,
+      "contentHeight": 19,
+      "lineHeight": 12,
+      "font": "\"Noto Sans KR\", Arial, sans-serif",
+      "text": "Textbook 선택",
+      "options": [
+        "Textbook 선택"
+      ]
+    },
+    {
+      "label": "Lesson 탐색 Unit",
+      "height": 31,
+      "contentHeight": 19,
+      "lineHeight": 12,
+      "font": "\"Noto Sans KR\", Arial, sans-serif",
+      "text": "Unit 선택",
+      "options": [
+        "Unit 선택"
+      ]
+    },
+    {
+      "label": "Lesson 상태 필터",
+      "height": 31,
+      "contentHeight": 19,
+      "lineHeight": 12,
+      "font": "\"Noto Sans KR\", Arial, sans-serif",
+      "text": "전체",
+      "options": [
+        "전체",
+        "저작 대기",
+        "저작 중",
+        "보류",
+        "저작 완료",
+        "일정 지연",
+        "소스 대기",
+        "소스 등록",
+        "저작 중",
+        "검수 대기",
+        "수정 중",
+        "Final Review",
+        "검수 완료"
+      ]
+    },
+    {
+      "label": "Lesson 정보 Level",
+      "height": 36,
+      "contentHeight": 16,
+      "lineHeight": 14,
+      "font": "\"Noto Sans KR\", Arial, sans-serif",
+      "text": "ECP6m",
+      "options": [
+        "Level 선택",
+        "ECP6m",
+        "ECP7m",
+        "ECP7",
+        "S1",
+        "MAG1",
+        "MAG2"
+      ]
+    },
+    {
+      "label": "Lesson 정보 Textbook",
+      "height": 36,
+      "contentHeight": 16,
+      "lineHeight": 14,
+      "font": "\"Noto Sans KR\", Arial, sans-serif",
+      "text": "ECP6m Sample Textbook",
+      "options": [
+        "Textbook 선택",
+        "ECP6m Sample Textbook"
+      ]
+    },
+    {
+      "label": "Lesson 정보 Unit",
+      "height": 36,
+      "contentHeight": 16,
+      "lineHeight": 14,
+      "font": "\"Noto Sans KR\", Arial, sans-serif",
+      "text": "Unit 01",
+      "options": [
+        "Unit 선택",
+        "Unit 01"
+      ]
+    },
+    {
+      "label": "현재 상태",
+      "height": 36,
+      "contentHeight": 16,
+      "lineHeight": 14,
+      "font": "\"Noto Sans KR\", Arial, sans-serif",
+      "text": "검수 완료",
+      "options": [
+        "소스 대기",
+        "소스 등록",
+        "저작 중",
+        "검수 대기",
+        "수정 중",
+        "Final Review",
+        "검수 완료"
+      ]
+    },
+    {
+      "label": "단계 진행 상태",
+      "height": 36,
+      "contentHeight": 16,
+      "lineHeight": 14,
+      "font": "\"Noto Sans KR\", Arial, sans-serif",
+      "text": "대기",
+      "options": [
+        "대기",
+        "진행 중",
+        "완료",
+        "보류"
+      ]
+    },
+    {
+      "label": "Lesson 탐색 Textbook",
+      "height": 31,
+      "contentHeight": 19,
+      "lineHeight": 12,
+      "font": "\"Noto Sans KR\", Arial, sans-serif",
+      "text": "모든 Textbook",
+      "options": [
+        "모든 Textbook",
+        "ECP6m Sample Textbook"
+      ]
+    },
+    {
+      "label": "Lesson 탐색 Unit",
+      "height": 31,
+      "contentHeight": 19,
+      "lineHeight": 12,
+      "font": "\"Noto Sans KR\", Arial, sans-serif",
+      "text": "모든 Unit",
+      "options": [
+        "모든 Unit"
+      ]
+    },
+    {
+      "label": "Lesson 상태 필터",
+      "height": 31,
+      "contentHeight": 19,
+      "lineHeight": 12,
+      "font": "\"Noto Sans KR\", Arial, sans-serif",
+      "text": "전체",
+      "options": [
+        "전체",
+        "저작 대기",
+        "저작 중",
+        "보류",
+        "저작 완료",
+        "일정 지연",
+        "소스 대기",
+        "소스 등록",
+        "저작 중",
+        "검수 대기",
+        "수정 중",
+        "Final Review",
+        "검수 완료"
+      ]
+    }
+  ],
+  "consoleErrors": [],
+  "limitations": "운영체제 native popup의 시각 렌더링 및 다른 브라우저는 미검증. 팝업 열기와 키보드 선택, 옵션 문자열은 실제 Chromium에서 검증."
+}
