@@ -1,7 +1,7 @@
 import React,{useState} from 'react';
 import {Plus,ChevronRight,Download} from 'lucide-react';
 import {stages,hierarchy,progress,normalizeLogs} from './model.js';
-export function Cascade({data,value,onChange,disabled=false,includeLesson=true,prefix='',levelOptions=data.projects}){
+export function Cascade({data,value,onChange,disabled=false,includeLesson=true,disableLevel=false,prefix='',levelOptions=data.projects}){
  const h=hierarchy(data,value.lessonId);
  const linkedUnit=data.units.find(u=>u.id===value.unitId)||h.unit;
  const linkedBook=data.textbooks.find(t=>t.id===(value.textbookId||linkedUnit?.textbookId))||h.textbook;
@@ -14,7 +14,7 @@ export function Cascade({data,value,onChange,disabled=false,includeLesson=true,p
   ['textbookId','Textbook',data.textbooks.filter(t=>t.levelId===levelId),textbookId],
   ['unitId','Unit',data.units.filter(u=>u.textbookId===textbookId),unitId],
   ...(includeLesson?[['lessonId','Lesson',data.lessons.filter(l=>l.unitId===unitId),lessonId]]:[]),
- ].map(([key,label,options,current],i)=><select key={key} aria-label={`${prefix}${label}`} disabled={disabled} value={current} onChange={e=>{
+ ].map(([key,label,options,current],i)=><select key={key} aria-label={`${prefix}${label}`} disabled={disabled||(disableLevel&&key==='levelId')} value={current} onChange={e=>{
  const next={levelId,textbookId,unitId,lessonId,[key]:e.target.value};
  for(const child of ['levelId','textbookId','unitId','lessonId'].slice(i+1))next[child]='';
  onChange(next);
