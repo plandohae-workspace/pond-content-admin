@@ -1,6 +1,6 @@
 {
   "artifact": "artifacts/POND-Admin.html",
-  "sha256": "6bb81bc21d46d79c2160e605bf89a76e8d00d550a2f3aa6281a98ba2b03c8340",
+  "sha256": "4e6085e37988382a216c23b0732b818aee15bcc777d3584628216f2eb6c6ace0",
   "sandbox": "allow-scripts allow-same-origin; allow-forms 없음",
   "clickSaved": true,
   "reopenPreserved": true,

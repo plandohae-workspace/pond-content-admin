@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 const browser=await chromium.launch({executablePath:'/usr/bin/chromium',headless:true,args:['--no-sandbox']});
 const page=await browser.newPage({viewport:{width:1440,height:1000}});const errors=[];page.on('pageerror',e=>errors.push(e.message));
 await page.goto(process.env.POND_TEST_URL||'http://localhost:5173/');await page.getByRole('heading',{name:'콘텐츠 제작 현황'}).waitFor();
-const open=async()=>{await page.locator('aside nav').getByRole('button',{name:'Lesson',exact:true}).click();await page.getByLabel('Lesson 탐색 Level',{exact:true}).selectOption({label:'ECP6m'});await page.locator('.lesson-board-card[data-lesson-id="review-lesson-ECP6m-1"]').click();};
+const open=async()=>{await page.locator('aside nav').getByRole('button',{name:'Lesson',exact:true}).click();await page.getByRole('tab',{name:'ECP6m',exact:true}).click();await page.locator('.lesson-board-card[data-lesson-id="review-lesson-ECP6m-1"]').click();};
 await open();const heading=await page.locator('.lesson-browser h1').textContent();
 const edit=async()=>{await page.getByRole('button',{name:'일정·상태 수정'}).click();await page.getByRole('tab',{name:'단계별 제작 현황'}).click();};
 await edit();const dialog=page.getByRole('dialog',{name:'Lesson 정보 편집'});
