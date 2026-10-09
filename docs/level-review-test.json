@@ -1,9 +1,7 @@
 {
   "artifact": "artifacts/POND-Admin.html",
-  "sha256": "176210213d9be9cb8e5788ea9ad0bbfa58990b54c969853e82dd936adcd0eed5",
-  "sixAuthoringCards": true,
-  "grid321": true,
-  "authoringAverage17": true,
+  "sha256": "3e4f0bfd0925d801317959dc877e1874e81f343684f3a48f0645e00102e2c29d",
+  "unifiedLevelBoard": true,
   "levelDetail": true,
   "sixReviewWideCards": true,
   "reviewIndependent50And0Overall25": true,

@@ -1,0 +1,13 @@
+{
+  "artifact": "artifacts/POND-Admin.html",
+  "fiveMenus": true,
+  "oneLevelNoLesson": true,
+  "authoringBoard": true,
+  "sixTabs": true,
+  "lessonSaveAndReload": true,
+  "hierarchyCompleteAndExcelPreserved": true,
+  "dashboardLevelLinks": true,
+  "reviewGap12And36": true,
+  "materialAndReviewDataPreserved": true,
+  "consoleErrors": []
+}

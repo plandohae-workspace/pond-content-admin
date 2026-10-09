@@ -40,7 +40,7 @@ await page.getByRole('button',{name:'레벨 목록으로',exact:true}).click();a
 await page.getByRole('button',{name:'레벨 목록으로',exact:true}).click();await page.getByRole('button',{name:'전체 레벨 통합 조회',exact:true}).click();assert.equal(await page.locator('.error-row').count(),13);
 const stored=await page.evaluate(()=>new Promise(resolve=>{const r=indexedDB.open('pond-admin',1);r.onsuccess=()=>{const q=r.result.transaction('workspace').objectStore('workspace').get('current');q.onsuccess=()=>resolve(q.result);};}));
 assert.deepEqual(stored.logs.find(l=>l.id==='orphan-test'),migrate(legacy).logs.at(-1));assert.deepEqual(stored.materials,legacy.materials);assert.deepEqual(stored.lessons.slice(0,24),legacy.lessons.map(l=>({...l,unitId:`unit-${l.projectId}`})));
-for(const menu of ['Lesson','자료 관리','사용자·권한','대시보드']){await page.locator('nav').getByRole('button',{name:menu,exact:true}).click();await page.getByRole('heading',{level:1}).waitFor();}
+for(const menu of ['Level','자료 관리','사용자·권한','대시보드']){await page.locator('nav').getByRole('button',{name:menu,exact:true}).click();await page.getByRole('heading',{level:1}).waitFor();}
 // Empty levels show real zero statistics and do not invent a Lesson/table.
 const emptyData=ensureReviewLevels(migrate(seed()));const emptyId=emptyData.reviewLevelIds[0];
 const removedBooks=emptyData.textbooks.filter(t=>t.levelId===emptyId).map(t=>t.id);emptyData.textbooks=emptyData.textbooks.filter(t=>t.levelId!==emptyId);emptyData.units=emptyData.units.filter(u=>!removedBooks.includes(u.textbookId));const removedLessons=emptyData.lessons.filter(l=>l.projectId===emptyId).map(l=>l.id);emptyData.lessons=emptyData.lessons.filter(l=>l.projectId!==emptyId);emptyData.logs=emptyData.logs.filter(r=>!removedLessons.includes(r.lessonId));
