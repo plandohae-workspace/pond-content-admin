@@ -2,9 +2,8 @@ import {levelLessons} from './level-metrics.js';
 import {lessonProduction,lessonReview,productionStatuses} from './lesson-model.js';
 export function authoringStatus(data,levelId){
  const lessons=levelLessons(data,levelId).map(lesson=>{const p=lessonProduction(lesson);return {lesson,current:p.current,status:p.completed===6?'완료':Object.values(p.stages).some(s=>s.status!=='대기')?'진행 중':'대기',held:Object.values(p.stages).some(s=>s.status==='보류')};});
- const working=lessons.filter(l=>l.status==='진행 중'),waiting=lessons.filter(l=>l.status==='대기'),completed=lessons.filter(l=>l.status==='완료').length;
- const candidates=working.length?working:waiting;
- return {total:lessons.length,completed,items:candidates.slice(0,3),extra:Math.max(0,candidates.length-3),allCompleted:lessons.length>0&&completed===lessons.length};
+ const completed=lessons.filter(l=>l.status==='완료').length;
+ return {total:lessons.length,completed,items:lessons.filter(l=>l.status!=='완료').slice(0,1),allCompleted:lessons.length>0&&completed===lessons.length};
 }
 export function reviewStatus(data,levelId,round){
  const lessons=levelLessons(data,levelId),stageId=round==='1st Review'?'firstReview':'finalReview';
