@@ -64,6 +64,14 @@ POND Admin은 콘텐츠 저작 과정에서 분산되어 있는 진행 현황, �
 
 ## 실행 방법
 
+### 웹에서 실행 (GitHub Pages)
+
+예정 웹 주소: **[https://plandohae-workspace.github.io/pond-content-admin/](https://plandohae-workspace.github.io/pond-content-admin/)**
+
+배포 설정이 main에 반영되면 GitHub Actions가 검사·빌드를 수행하고 `dist/`를 GitHub Pages에 자동 배포합니다. 실제 배포 성공 전에는 위 주소의 실행을 보장하지 않습니다. 저장소의 **Actions → Deploy to GitHub Pages**에서 배포 결과를 확인하세요. Pages의 Source는 **GitHub Actions**로 설정합니다.
+
+별도 비밀키는 필요하지 않습니다. 메뉴 이동은 앱 내부 상태로 처리하며 하위 URL을 생성하지 않습니다. 새로고침 시 첫 화면으로 돌아오지만 저장 데이터는 같은 브라우저·같은 사이트에서 유지됩니다. 로컬 실행 데이터와 웹 사이트 데이터는 서로 공유되지 않습니다.
+
 ### A. 설치 없이 실행
 
 1. [artifacts/POND-Admin.html](artifacts/POND-Admin.html)을 열고 GitHub의 **Download raw file** 버튼으로 다운로드합니다.
@@ -85,7 +93,7 @@ npm ci
 npm run dev
 ```
 
-브라우저에서 **http://localhost:5173**에 접속합니다. 해당 포트가 사용 중이면 Vite가 다른 포트를 선택할 수 있으므로 터미널에 표시된 주소를 확인하세요. `npm run dev`는 `--host 0.0.0.0`으로 실행됩니다.
+브라우저에서 **http://localhost:5173/pond-content-admin/**에 접속합니다. 해당 포트가 사용 중이면 Vite가 다른 포트를 선택할 수 있으므로 터미널에 표시된 주소를 확인하세요. `npm run dev`는 `--host 0.0.0.0`으로 실행됩니다.
 
 배포용 빌드와 로컬 빌드 확인:
 
@@ -94,7 +102,7 @@ npm run build
 npm run preview
 ```
 
-빌드 결과는 `dist/`에 생성됩니다. preview의 기본 접속 주소는 **http://localhost:4173**입니다.
+빌드 결과는 `dist/`에 생성됩니다. preview의 기본 접속 주소는 **http://localhost:4173/pond-content-admin/**입니다.
 
 최신 standalone HTML 생성:
 
