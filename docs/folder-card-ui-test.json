@@ -1,0 +1,25 @@
+{
+  "artifact": "artifacts/POND-Admin.html",
+  "cardHeights": [
+    136,
+    136,
+    136,
+    136,
+    136,
+    136,
+    136,
+    136,
+    136,
+    136
+  ],
+  "twoColumnsAt1200And1600And1920": true,
+  "fixedNamesAndOrder": true,
+  "wholeCardAndKeyboardOpen": true,
+  "hover": true,
+  "editAndDeleteDoNotOpenDrive": true,
+  "unregisteredDoesNotOpen": true,
+  "levelIsolation": true,
+  "reload": true,
+  "mobileOneColumn": true,
+  "pageErrors": []
+}
