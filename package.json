@@ -29,7 +29,8 @@
     "test:folder-card-ui": "node tests/folder-card-ui.mjs",
     "test:dashboard-c": "node tests/dashboard-c.mjs",
     "test:dashboard-calendar": "node tests/dashboard-calendar.mjs",
-    "test:users": "node tests/users.mjs"
+    "test:users": "node tests/users.mjs",
+    "test:lesson-drag": "node tests/lesson-drag.mjs"
   },
   "dependencies": {
     "exceljs": "^4.4.0",

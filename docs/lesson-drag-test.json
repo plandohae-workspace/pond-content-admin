@@ -1,0 +1,19 @@
+{
+  "artifact": "artifacts/POND-Admin.html",
+  "sha256": "f6cbf29546263bc2af00fe6cc8b5c55c447a94714d1008ccfb358370a90972e3",
+  "testFixture": "독립 브라우저 저장소의 가상 Lesson 02를 검수 이력 없는 소스 대기 상태로 설정; 실제 배포 샘플과 사용자 데이터 변경 없음",
+  "realMouseDrag": true,
+  "dragAndDropVisuals": true,
+  "waitingToProgressSourceStartAndHistory": true,
+  "progressToCompletionBlockedUntilSixStages": true,
+  "sourceOnlyRequeuePreservesDates": true,
+  "completedAndReviewReversalBlocked": true,
+  "storageFailureKeepsOriginalPosition": true,
+  "reload": true,
+  "dashboardKPIs": true,
+  "detailAndClickPreserved": true,
+  "sixStageCompletionAutomaticallyClassifies": true,
+  "existingLogsAndMaterialsPreserved": true,
+  "permissionPolicy": true,
+  "pageErrors": []
+}

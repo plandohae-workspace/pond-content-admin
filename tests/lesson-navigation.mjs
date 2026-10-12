@@ -6,7 +6,7 @@ await page.goto(process.env.POND_TEST_URL||'http://localhost:5173/');await page.
 const nav=name=>page.locator('aside nav').getByRole('button',{name,exact:name!=='검수 관리'});
 const persisted=()=>page.evaluate(()=>new Promise((resolve,reject)=>{const req=indexedDB.open('pond-admin',1);req.onsuccess=()=>{const r=req.result.transaction('workspace').objectStore('workspace').get('current');r.onsuccess=()=>resolve(r.result);r.onerror=reject;};}));
 const levels=['ECP6m','ECP7m','ECP7','S1','MAG1','MAG2'];
-await nav('Level').click();assert.deepEqual(await page.locator('.board-level-tabs [role=tab]').allTextContents(),levels);await expect(page.getByRole('heading',{name:'Lesson Authoring Board'})).toBeVisible();
+await nav('Level').click();assert.deepEqual(await page.locator('.board-level-tabs [role=tab]').allTextContents(),levels);await expect(page.getByRole('heading',{name:'저작 관리'})).toBeVisible();
 await page.getByRole('tab',{name:'ECP6m',exact:true}).click();assert.equal(await page.locator('.lesson-board-card').count(),2);
 const choose=async(label)=>{const locator=page.getByLabel(`Lesson 탐색 ${label}`,{exact:true});await locator.selectOption({index:1});return locator.inputValue();};
 await choose('Textbook');await choose('Unit');assert.equal(await page.locator('.lesson-board-card').count(),2);await page.getByLabel('Lesson 탐색 Textbook',{exact:true}).selectOption('');assert.equal(await page.getByLabel('Lesson 탐색 Unit',{exact:true}).inputValue(),'');
