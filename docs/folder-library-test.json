@@ -1,0 +1,20 @@
+{
+  "artifact": "artifacts/POND-Admin.html",
+  "sha256": "7b8e826fc40b91ecce7444a2bf234c0ec7d784a7fa68c316502a8722208c4977",
+  "sixLevels": true,
+  "fixedTenFoldersPerLevel": true,
+  "all60RegisteredThroughUI": true,
+  "httpsAndFolderSyntax": true,
+  "windowsPathGuidanceAndInputPreserved": true,
+  "failedSaveRetainsInput": true,
+  "registrationEditDelete": true,
+  "safeNewTab": true,
+  "levelIsolation": true,
+  "reload": true,
+  "existingFilesAndLessonHubPreserved": true,
+  "adminDemoOnly": true,
+  "responsive": true,
+  "otherMenus": true,
+  "pageErrors": [],
+  "driveAccess": "가상 POND_DEMO 폴더 주소를 브라우저 테스트에서만 사용하고 응답은 모킹함. 실제 폴더 존재·권한은 검증하지 않음."
+}

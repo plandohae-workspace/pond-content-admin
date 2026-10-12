@@ -1,0 +1,32 @@
+import {chromium,expect} from '@playwright/test';
+import {readFile,writeFile} from 'node:fs/promises';
+import assert from 'node:assert/strict';
+import {authoringStatus,reviewStatus} from '../src/dashboard-status.js';
+import {contentCalendar} from '../src/content-calendar-model.js';
+import {dashboardMetrics} from '../src/dashboard-model.js';
+const html=await readFile('artifacts/POND-Admin.html','utf8');
+const browser=await chromium.launch({executablePath:'/usr/bin/chromium',args:['--no-sandbox']});
+try{
+ const page=await browser.newPage({viewport:{width:1600,height:1200}}),errors=[];
+ page.on('pageerror',e=>errors.push(e.message));
+ await page.route('http://pond-dashboard.test/app',r=>r.fulfill({contentType:'text/html',body:html}));
+ await page.goto('http://pond-dashboard.test/app');await page.getByRole('heading',{name:'콘텐츠 저작 현황'}).waitFor();
+ const nav=async name=>page.locator('aside nav').getByRole('button',{name,exact:name!=='검수 관리'}).click();
+ const stored=()=>page.evaluate(()=>new Promise(resolve=>{const req=indexedDB.open('pond-admin',1);req.onsuccess=()=>{const r=req.result.transaction('workspace').objectStore('workspace').get('current');r.onsuccess=()=>resolve(r.result);};}));
+ const check=async()=>{const data=await stored(),m=dashboardMetrics(data);assert.ok(contentCalendar(data).events.length>0);for(const [i,n]of [m.total,m.working,m.completed,m.reviewIncomplete].entries())assert.equal(await page.locator(`[data-kpi="${i}"] strong`).innerText(),`${n}건`);assert.equal(await page.locator('.overdue').count(),0);await expect(page.getByRole('heading',{name:'마감일이 지난 Lesson',exact:false})).toHaveCount(0);await expect(page.getByRole('heading',{name:'콘텐츠 일정 캘린더'})).toBeVisible();await expect(page.locator('.upcoming')).toHaveCount(0);for(const {level}of m.levels){const a=authoringStatus(data,level.id);await expect(page.locator(`.dashboard-authoring-level[data-level-id="${level.id}"] .dashboard-authoring-lesson`)).toHaveCount(a.items.length);for(const round of ['1st Review','Final Review'])await expect(page.locator(`.dashboard-review-row[data-level-id="${level.id}"] [data-review-round="${round}"] [data-review-status]`)).toHaveText(reviewStatus(data,level.id,round).status);}await expect(page.locator('.operations-dashboard [role=progressbar]')).toHaveCount(0);await expect(page.getByRole('heading',{name:'최근 검수 내역'})).toHaveCount(0);return m;};
+ const before=await stored();await check();await expect(page.locator('.dashboard-authoring-level')).toHaveCount(6);await expect(page.locator('aside nav button')).toHaveCount(5);
+ await page.getByRole('button',{name:'ECP6m 저작 전체 보기'}).click();await expect(page.getByRole('heading',{name:'저작 관리'})).toBeVisible();await expect(page.getByRole('tab',{name:'ECP6m',exact:true})).toHaveAttribute('aria-selected','true');
+ await page.locator('[data-lesson-id="review-lesson-ECP6m-2"]').click();await page.getByRole('button',{name:'일정·상태 수정'}).click();await page.getByRole('tab',{name:'단계별 저작 현황'}).click();await page.getByLabel('단계 진행 상태').selectOption('완료');
+ for(const [label,value]of [['예정 시작일','2026-10-01'],['예정 마감일','2026-10-02'],['실제 시작일','2026-10-01'],['실제 완료일','2026-10-02']])await page.getByLabel(`단계 ${label}`,{exact:true}).fill(value);
+ await page.getByRole('button',{name:'저장',exact:true}).click();await expect(page.getByRole('dialog')).toHaveCount(0);
+ await nav('대시보드');await check();await expect(page.locator('[data-kpi="1"] strong')).toHaveText('1건');await expect(page.locator('.dashboard-authoring-level').first().locator('.dashboard-authoring-lesson')).toHaveAttribute('data-lesson-id','review-lesson-ECP6m-1');
+ await page.locator('.dashboard-review-row').first().click();await expect(page.getByRole('heading',{name:'ECP6m',exact:true})).toBeVisible();await expect(page.locator('.review-wide-list')).toHaveCount(0);
+ await nav('Level');await page.locator('[data-lesson-id="review-lesson-ECP6m-2"]').click();await page.locator('[data-review-round="1st Review"]').getByRole('button',{name:'오류 없음 확인',exact:true}).click();await nav('대시보드');await check();await expect(page.locator('[data-kpi="3"] strong')).toHaveText('12건');
+ await nav('Level');await page.locator('[data-lesson-id="review-lesson-ECP6m-2"]').click();await page.locator('[data-review-round="Final Review"]').getByRole('button',{name:'오류 없음 확인',exact:true}).click();await nav('대시보드');await check();await expect(page.locator('[data-kpi="3"] strong')).toHaveText('11건');
+ const due=page.locator('.calendar-table .calendar-event').first();const id=await due.getAttribute('data-lesson-id');await due.click();await expect(page.getByRole('heading',{level:1})).toContainText('Lesson');await expect(page.getByRole('button',{name:'일정·상태 수정'})).toBeVisible();assert.ok(id);
+ await nav('대시보드');await page.evaluate(()=>window.scrollTo(0,0));await page.screenshot({path:'docs/dashboard-stage6.png',fullPage:true});
+ for(const width of [900,600]){await page.setViewportSize({width,height:1000});assert.ok(await page.locator('.operations-dashboard').evaluate(el=>el.scrollWidth<=el.clientWidth+1));}await page.setViewportSize({width:1600,height:1200});
+ await page.reload();await page.getByRole('heading',{name:'콘텐츠 저작 현황'}).waitFor();await check();await expect(page.locator('[data-kpi="3"] strong')).toHaveText('11건');const after=await stored();assert.deepEqual(after.logs,before.logs);assert.deepEqual(after.materials,before.materials);assert.deepEqual(after.projects,before.projects);
+ await nav('검수 관리');await expect(page.locator('.review-wide-card')).toHaveCount(6);assert.equal(await page.locator('.review-wide-list + .legacy-levels').evaluate(el=>getComputedStyle(el).marginTop),'36px');await nav('자료 관리');await expect(page.locator('.material-level-nav>button')).toHaveCount(6);
+ assert.deepEqual(errors,[]);await writeFile('docs/dashboard-stage6-test.json',JSON.stringify({artifact:'artifacts/POND-Admin.html',kpisMatchStoredData:true,overdueCardAbsent:true,monthlyCalendar:true,authoringSaveUpdates:true,independentReviewUpdates:true,deadlineListsMatchStoredData:true,levelReviewLessonNavigation:true,responsive:true,reload:true,dataPreserved:true,reviewWideAnd36px:true,materialLibrary:true,consoleErrors:errors},null,2)+'\n');console.log('PASS: standalone HTML KPI·저작/검수 저장 집계·일정·빠른 이동·반응형·새로고침·데이터 보존·기존 검수/자료 UI');
+}finally{await browser.close();}

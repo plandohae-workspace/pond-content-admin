@@ -10,14 +10,15 @@ const legacy=seed();legacy.projects[0].name='보존 샘플 Level';legacy.logs[0]
 await page.addInitScript(d=>{if(!localStorage.getItem('pond-v1'))localStorage.setItem('pond-v1',JSON.stringify(d));},legacy);
 await page.goto(process.env.POND_TEST_URL||'http://localhost:5173/');
 await page.getByRole('heading',{name:'콘텐츠 저작 현황'}).waitFor();
-assert.ok(await page.getByText('보존 샘플 Level',{exact:true}).count());
+await expect(page.locator('.dashboard-authoring-level')).toHaveCount(6);
+assert.equal(await page.getByText('보존 샘플 Level',{exact:true}).count(),0);
 await page.screenshot({path:'docs/dashboard.png',fullPage:true});
 const nav=name=>page.locator('nav').getByRole('button',{name,exact:name!=='검수 관리'});
 await nav('Level').click();
 await page.getByRole('button',{name:'Level 추가',exact:true}).click();
 await page.getByLabel('Level명').fill('Level Test');await page.getByLabel('과정 / 콘텐츠명').fill('가상 콘텐츠');await page.getByLabel('담당자').fill('가상 담당자');
 await page.getByRole('button',{name:'저장',exact:true}).click();
-await page.locator('.hierarchy-select').filter({hasText:'Level Test'}).click();
+await page.getByRole('button',{name:'전체 계층 관리',exact:true}).click();await page.locator('.hierarchy-select').filter({hasText:'Level Test'}).click();
 let panel=page.locator('.hierarchy-panel').nth(1);
 await panel.getByRole('button',{name:'추가',exact:true}).click();await page.getByLabel('이름',{exact:true}).fill('Textbook Test');await page.getByRole('button',{name:'저장',exact:true}).click();
 await panel.locator('.hierarchy-select').filter({hasText:'Textbook Test'}).click();

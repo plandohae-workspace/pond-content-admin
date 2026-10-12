@@ -1,0 +1,7 @@
+import {hierarchy} from './model.js';
+import {visibleLessons,productionStages} from './lesson-model.js';
+export const calendarTypes=[{id:'authoring',name:'저작 마감'},{id:'firstReview',name:'1차 검수'},{id:'finalReview',name:'최종 검수'}];
+export function calendarDate(value){return typeof value==='string'&&/^\d{4}-\d{2}-\d{2}$/.test(value)&&!Number.isNaN(Date.parse(value))&&new Date(value).toISOString().slice(0,10)===value;}
+export function contentCalendar(data){const events=[],missing={authoring:0,firstReview:0,finalReview:0};for(const lesson of visibleLessons(data)){const stages=productionStages(lesson),level=hierarchy(data,lesson.id).level;for(const type of calendarTypes){const date=stages[type.id].deadline||(type.id!=='authoring'?stages[type.id].plannedStart:'');if(!calendarDate(date)){missing[type.id]++;continue;}events.push({id:`${lesson.id}:${type.id}`,lessonId:lesson.id,lessonNumber:lesson.number,lessonName:lesson.name,levelName:level.name,type:type.id,typeName:type.name,date});}}return {events,missing};}
+export function shiftMonth(month,offset){const [year,number]=month.split('-').map(Number);return new Date(Date.UTC(year,number-1+offset,1)).toISOString().slice(0,7);}
+export function calendarCells(month){const [year,number]=month.split('-').map(Number),start=new Date(Date.UTC(year,number-1,1)).getUTCDay(),days=new Date(Date.UTC(year,number,0)).getUTCDate();return Array.from({length:Math.ceil((start+days)/7)*7},(_,index)=>{const day=index-start+1;return day>0&&day<=days?`${month}-${String(day).padStart(2,'0')}`:null;});}

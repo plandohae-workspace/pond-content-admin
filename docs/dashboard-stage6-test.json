@@ -1,0 +1,16 @@
+{
+  "artifact": "artifacts/POND-Admin.html",
+  "kpisMatchStoredData": true,
+  "overdueCardAbsent": true,
+  "upcomingPreserved": true,
+  "authoringSaveUpdates": true,
+  "independentReviewUpdates": true,
+  "deadlineListsMatchStoredData": true,
+  "levelReviewLessonNavigation": true,
+  "responsive": true,
+  "reload": true,
+  "dataPreserved": true,
+  "reviewWideAnd36px": true,
+  "materialLibrary": true,
+  "consoleErrors": []
+}

@@ -1,0 +1,28 @@
+{
+  "artifact": "artifacts/POND-Admin.html",
+  "sha256": "f6cbf29546263bc2af00fe6cc8b5c55c447a94714d1008ccfb358370a90972e3",
+  "oneRowWith12Lessons": true,
+  "rowHeights": [
+    72,
+    72,
+    72,
+    72,
+    72,
+    72
+  ],
+  "originalOrder": true,
+  "realSixStageSaveAdvancesRepresentative": true,
+  "calendarTextVisible": true,
+  "sevenWeekdayColumns": true,
+  "monthNavigation": true,
+  "typeFiltersDoNotMutateData": true,
+  "moreThanThreeDialog": true,
+  "correctLessonNavigation": true,
+  "missingDatesNotInvented": true,
+  "realDeadlineEditReflected": true,
+  "reload": true,
+  "otherRecordsPreserved": true,
+  "mobileHorizontalScroll": true,
+  "pageErrors": [],
+  "fixture": "12 Lesson과 많은 일정을 테스트 브라우저에만 구성함. 앱 데이터에는 추가하지 않음."
+}

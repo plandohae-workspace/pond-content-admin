@@ -20,7 +20,17 @@
     "test:modal-scroll": "node tests/lesson-modal-scroll.mjs",
     "test:materials": "node tests/materials.mjs",
     "test:lesson-board": "node tests/lesson-board.mjs",
-    "test:ui-terms": "node tests/ui-terms.mjs"
+    "test:ui-terms": "node tests/ui-terms.mjs",
+    "test:level-review": "node tests/level-review.mjs",
+    "test:menu-integration": "node tests/menu-integration.mjs",
+    "test:dashboard": "node tests/dashboard.mjs",
+    "test:material-hub": "node tests/material-hub.mjs",
+    "test:folder-library": "node tests/folder-library.mjs",
+    "test:folder-card-ui": "node tests/folder-card-ui.mjs",
+    "test:dashboard-c": "node tests/dashboard-c.mjs",
+    "test:dashboard-calendar": "node tests/dashboard-calendar.mjs",
+    "test:users": "node tests/users.mjs",
+    "test:lesson-drag": "node tests/lesson-drag.mjs"
   },
   "dependencies": {
     "exceljs": "^4.4.0",
