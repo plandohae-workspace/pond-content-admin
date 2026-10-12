@@ -24,7 +24,8 @@
     "test:level-review": "node tests/level-review.mjs",
     "test:menu-integration": "node tests/menu-integration.mjs",
     "test:dashboard": "node tests/dashboard.mjs",
-    "test:material-hub": "node tests/material-hub.mjs"
+    "test:material-hub": "node tests/material-hub.mjs",
+    "test:folder-library": "node tests/folder-library.mjs"
   },
   "dependencies": {
     "exceljs": "^4.4.0",

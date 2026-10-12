@@ -358,3 +358,20 @@ Lesson 보드 카드는 132px 높이로 정리했습니다. 번호·이름과 �
 검증: `npm run test:material-hub`는 최종 단일 HTML에서 가상 URL 등록/수정/삭제, 새 탭 열기, 6종·Level/Lesson별 분리, 등록률, 저장 실패 후 입력 보존, 새로고침, 기존 데이터 보존, 메뉴 이동과 권한을 실제 Chromium으로 확인합니다. 실제 Google Drive 접근은 테스트하지 않습니다. 결과는 `docs/material-hub-stage7-test.json`, 화면은 `docs/material-hub-stage7.png`입니다. `npm run test:materials`는 ‘기존 자료’ 화면에서 실제 데모 이미지 첨부·다운로드·재접속을 확인합니다.
 
 브랜치는 최신 main `857403d`에서 생성하고, main에 아직 병합되지 않은 5·6차 및 메뉴 통합 커밋을 가져와 기존 UI를 보존했습니다. main/PR 병합은 수행하지 않았습니다.
+
+### 최종 자료 관리: Level별 Google Drive 공유 폴더
+
+자료 관리 첫 화면은 ECP6m, ECP7m, ECP7, S1, MAG1, MAG2의 공유 폴더 바로가기입니다. 각 Level에서 고정된 10개 폴더를 같은 이름과 순서로 표시합니다. 폴더 이름을 수정하거나 추가하는 기능은 없습니다. 선택한 Level의 등록된 링크 수를 10개 기준으로 표시합니다.
+
+고정 순서: POND Lesson Flow → Content Dev. List → Content Sample → Manuscript Prototype → Inputting Statements → VL → Multimedia Contents → Prototype Resources → Teacher's Tip → POND Resources.
+
+- 데모 역할을 Admin으로 선택하면 링크 등록·수정·삭제가 가능합니다. 다른 역할은 등록된 링크를 열 수 있습니다. UI와 변경 함수 양쪽에 역할 확인이 있지만, 브라우저에서 바꿀 수 있는 데모 제어입니다. 실제 로그인·서버 권한 검증·다중 사용자 보안이 구현된 것은 아닙니다. 향후 서버에서 동일한 권한 정책을 검증해야 합니다.
+- URL은 HTTPS, 정확한 `drive.google.com` 도메인, `/drive/folders/폴더ID`, `/drive/u/0/folders/폴더ID`, `/folders/폴더ID` 경로를 기본 검증합니다. 파일 링크·다른 도메인·사용자 정보가 포함된 링크는 거부합니다. 실제 폴더 존재, 접근 권한, 공유 설정은 확인하지 않습니다.
+- ‘Google Drive에서 열기’는 `target="_blank"`, `rel="noopener noreferrer"`로 원본을 엽니다. Google Drive API, 로그인, 업로드, 자동 동기화는 제공하지 않습니다.
+- 새 링크는 기존 IndexedDB 워크스페이스의 추가 배열 `levelFolderLinks`에 `id`, `levelId`, `folderNumber`, `url`, `registeredAt`, `modifiedAt`으로 저장합니다. Level ID와 폴더 번호가 기록의 고유 조합이며, 다른 Level 링크를 덮어쓰지 않습니다. 기존 DB 이름·버전·저장 키는 유지했습니다.
+- ‘기존 파일·자료’에는 기존 파일 라이브러리를, ‘이전 Lesson 자료 링크’에는 7차 Lesson별 자료 허브를 원래 데이터 구조로 보존했습니다. `materials`, 첨부 파일과 `materialHubLinks`를 자동 변환하거나 삭제하지 않았습니다. 기존 자료 상세 진입도 유지됩니다. 원래 Level 관리·검수 화면의 자료 진입은 해당 Level의 새 화면으로 이동하며, 이전 Lesson 링크 영역에 들어가면 원래 Lesson 선택값을 사용합니다.
+- 현재 브라우저·사이트 주소의 저장소에만 저장되므로 다른 기기/사용자와 공유되지 않습니다. 새로고침 후 유지되지만 사이트 데이터 삭제, 시크릿 모드 종료, 브라우저 저장소 정리로 유실될 수 있습니다. 링크 삭제는 원본 Drive 폴더를 삭제하지 않습니다.
+
+`npm run test:folder-library`는 최종 standalone HTML에서 고정 6×10 폴더, 화면으로 60개 링크 등록, 수정·삭제, Level별 분리, 새 탭, 새로고침, 실패 시 입력 보존, 기존 파일/허브 보존과 데모 역할을 검증합니다. 테스트의 `POND_DEMO_*` 폴더 ID는 가상이며 Drive 응답을 모킹합니다. 실제 회사 폴더나 접근 권한은 테스트하지 않습니다. 결과: `docs/folder-library-test.json`, 메인 화면: `docs/folder-library.png`, 등록 창: `docs/folder-link-editor.png`.
+
+이 브랜치는 최신 main `857403d`에서 생성했고, 아직 main에 병합되지 않은 5~7차 커밋을 가져와 기존 기능을 보존했습니다. main/PR은 병합하지 않았습니다.
