@@ -26,7 +26,8 @@
     "test:dashboard": "node tests/dashboard.mjs",
     "test:material-hub": "node tests/material-hub.mjs",
     "test:folder-library": "node tests/folder-library.mjs",
-    "test:folder-card-ui": "node tests/folder-card-ui.mjs"
+    "test:folder-card-ui": "node tests/folder-card-ui.mjs",
+    "test:dashboard-c": "node tests/dashboard-c.mjs"
   },
   "dependencies": {
     "exceljs": "^4.4.0",

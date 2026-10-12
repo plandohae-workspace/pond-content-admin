@@ -10,7 +10,7 @@ const legacy=seed();legacy.projects[0].name='보존 샘플 Level';legacy.logs[0]
 await page.addInitScript(d=>{if(!localStorage.getItem('pond-v1'))localStorage.setItem('pond-v1',JSON.stringify(d));},legacy);
 await page.goto(process.env.POND_TEST_URL||'http://localhost:5173/');
 await page.getByRole('heading',{name:'콘텐츠 저작 현황'}).waitFor();
-await expect(page.locator('.dashboard-level-row')).toHaveCount(6);
+await expect(page.locator('.dashboard-authoring-level')).toHaveCount(6);
 assert.equal(await page.getByText('보존 샘플 Level',{exact:true}).count(),0);
 await page.screenshot({path:'docs/dashboard.png',fullPage:true});
 const nav=name=>page.locator('nav').getByRole('button',{name,exact:name!=='검수 관리'});

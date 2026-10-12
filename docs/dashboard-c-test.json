@@ -1,0 +1,18 @@
+{
+  "artifact": "artifacts/POND-Admin.html",
+  "sha256": "c6221adc7173517f05c87f9423e15ecbdaf2be2040fb3625021b217dfdd03b44",
+  "actualStoredState": true,
+  "maxThreeAndExtraTwo": true,
+  "waitingFallback": true,
+  "allComplete": true,
+  "noLessons": true,
+  "independentReviewStatuses": true,
+  "unknownEvidence": true,
+  "noPercentOrProgressBars": true,
+  "noRecentReview": true,
+  "lessonAndBoardAndReviewNavigation": true,
+  "reload": true,
+  "dataUnchanged": true,
+  "pageErrors": [],
+  "fixture": "여러 진행/전체 완료/빈 Level/검수 혼합은 테스트 브라우저에만 가상 기록을 구성함. 실제 앱 샘플 데이터에는 추가하지 않음."
+}
