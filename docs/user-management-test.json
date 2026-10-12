@@ -1,0 +1,23 @@
+{
+  "artifact": "artifacts/POND-Admin.html",
+  "sha256": "1d14a4432869a33e7e4ce774de8cf745c36251a40859fec1e1181c102a8085ba",
+  "standaloneSandboxWithoutForms": true,
+  "addButton": true,
+  "requiredAndEmailValidation": true,
+  "caseInsensitiveDuplicateEmail": true,
+  "saveFailureRetainsInput": true,
+  "discardConfirmationWorksWithoutBrowserModals": true,
+  "registrationUpdatesList": true,
+  "stableIDAndTimestamps": true,
+  "editAndRoleChange": true,
+  "deactivateAndReactivate": true,
+  "searchFourFields": true,
+  "reloadUsersAndInactiveState": true,
+  "permissionMatrixUnchanged": true,
+  "roleDemoUnchanged": true,
+  "oldDemoUsersAndAllOtherDataPreserved": true,
+  "otherMenus": true,
+  "narrowEditorAccessible": true,
+  "noPasswordInput": true,
+  "pageErrors": []
+}
